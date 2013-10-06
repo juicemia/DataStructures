@@ -3,23 +3,24 @@ Barry_CS-331
 
 Stuff for Barry University's CS-331 Data Structures and Algorithms course
 
-So far implemented data structures:
 
-C++
+Implemented data structures:
 ============
-Node
-Array List
-Singly Linked List
-Stack (Array implementation)
+C++:
 
-C
-============
-Node
-Binary Search Tree
-Singly Linked List
-Doubly Linked List
-Queue (Linked list implementation)
-Queue (Array implementation)
-Priority Queue
-Stack (Linked list implementation)
-Stack (Array implementation)
+	Node
+	Array List
+	Singly Linked List
+	Stack (Array implementation)
+
+C:
+
+	Node
+	Binary Search Tree
+	Singly Linked List
+	Doubly Linked List
+	Queue (Linked list implementation)
+	Queue (Array implementation)
+	Priority Queue
+	Stack (Linked list implementation)
+	Stack (Array implementation)
