@@ -24,3 +24,7 @@ C:
 	Priority Queue
 	Stack (Linked list implementation)
 	Stack (Array implementation)
+
+Java:
+
+	Set
