@@ -1,12 +1,12 @@
-#include "../headers/LinkedList.h"
+#include "../headers/DoublyLinkedList.h"
 #include <cstdio>
 
 int main(int argc, char* argv[])
 {
-    LinkedList<int> myList;
+    DoublyLinkedList<int> myList;
 
     myList.insert(4);
-    printf("Current element: %d\n", myList.getCurrentElement());
+    //printf("Current element: %d\n", myList.getCurrentElement());
 
     myList.insert(5);
     //printf("Current element: %d\n", myList.getCurrentElement());

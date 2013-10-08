@@ -33,6 +33,8 @@
 		</Compiler>
 		<Unit filename="headers/ArrayList.h" />
 		<Unit filename="headers/ArrayStack.h" />
+		<Unit filename="headers/DoubleNode.h" />
+		<Unit filename="headers/DoublyLinkedList.h" />
 		<Unit filename="headers/LinkedList.h" />
 		<Unit filename="headers/SingleNode.h" />
 		<Unit filename="sources/testing.cpp" />
