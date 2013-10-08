@@ -1,32 +1,19 @@
-#include "../headers/DoublyLinkedList.h"
+#include "../headers/LinkedStack.h"
 #include <cstdio>
 
 int main(int argc, char* argv[])
 {
-    DoublyLinkedList<int> myList;
+    LinkedStack<int> myStack;
+    int size = myStack.getCurrentSize();
+    printf("Current size: %d\n", size);
 
-    myList.insert(4);
+    myStack.push(4);
+    size = myStack.getCurrentSize();
+    printf("Current size:%d\n", size);
 
-    myList.insert(5);
-
-    myList.append(6);
-
-    printf("Before removing: \n");
-    myList.jumpToHead();
-    for(int i = 0; i < myList.getCurrentSize(); i++){
-        printf("Current element: %d\n", myList.getCurrentElement());
-        myList.nextNode();
-    }
-
-    myList.jumpToNode(0);
-    myList.remove();
-
-    printf("After removing:\n");
-    myList.jumpToHead();
-    for(int i = 0; i < myList.getCurrentSize(); i++){
-        printf("Current element: %d\n", myList.getCurrentElement());
-        myList.nextNode();
-    }
+    myStack.push(5);
+    size = myStack.getCurrentSize();
+    printf("Current size:%d\n", size);
 
 	return 0;
 }

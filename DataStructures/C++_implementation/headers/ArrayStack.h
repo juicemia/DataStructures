@@ -1,12 +1,13 @@
 template <typename T>
-class Stack{
+class ArrayStack
+{
 	private:
 		T* elements;
 		int size;
 
 	public:
-		Stack();
-		Stack(T* init, int sz);
+		ArrayStack();
+		ArrayStack(T* init, int sz);
 
 		int getSize();
 
@@ -16,13 +17,15 @@ class Stack{
 };
 
 template <typename T>
-Stack<T>::Stack(){
+ArrayStack<T>::ArrayStack()
+{
 	elements = new T;
 	size = 0;
 }
 
 template <typename T>
-Stack<T>::Stack(T* init, int sz){
+ArrayStack<T>::ArrayStack(T* init, int sz)
+{
 	elements = new T[sz];
 	for(int i = 0; i < size; i++){
 		elements[i] = init[i];
@@ -32,12 +35,14 @@ Stack<T>::Stack(T* init, int sz){
 }
 
 template <typename T>
-int Stack<T>::getSize(){
+int ArrayStack<T>::getSize()
+{
 	return size;
 }
 
 template <typename T>
-void Stack<T>::push(T elem){
+void ArrayStack<T>::push(T elem)
+{
 	size++;
 	T* tmp = new T[size];
 	for(int i = 0; i < size - 1; i++){
@@ -49,7 +54,8 @@ void Stack<T>::push(T elem){
 }
 
 template <typename T>
-T Stack<T>::pop(){
+T ArrayStack<T>::pop()
+{
 	size--;
 	T popped = elements[size];
 	T* tmp = new T[size];
@@ -62,7 +68,8 @@ T Stack<T>::pop(){
 }
 
 template <typename T>
-T Stack<T>::peek(){
-	return elements[size - 1]; 
+T ArrayStack<T>::peek()
+{
+	return elements[size - 1];
 }
 

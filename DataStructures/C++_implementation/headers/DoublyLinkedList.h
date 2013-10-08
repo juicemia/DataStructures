@@ -39,12 +39,14 @@ DoublyLinkedList<T>::DoublyLinkedList()
 template <typename T>
 DoublyLinkedList<T>::~DoublyLinkedList()
 {
-    current = head;
-    while(current != NULL){
-        current = current->next;
-        delete current;
+    if(currentSize > 0){
+        current = head;
+        while(current != NULL){
+            current = current->next;
+            delete current;
+        }
+        delete head;
     }
-    delete head;
 }
 
 template <typename T>
