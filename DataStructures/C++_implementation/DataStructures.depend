@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1381195960 source:/home/hugo/Documents/School/CS-331/DataStructures/sources/testing.cpp
+	"../headers/DoublyLinkedList.h"
+	<cstdio>
+
+1380590542 /home/hugo/Documents/School/CS-331/DataStructures/headers/ArrayList.h
+
+1380677256 /home/hugo/Documents/School/CS-331/DataStructures/headers/LinkedList.h
+	"SingleNode.h"
+
+1380671444 /home/hugo/Documents/School/CS-331/DataStructures/headers/SingleNode.h
+
+1381197059 /home/hugo/Documents/School/CS-331/DataStructures/headers/DoublyLinkedList.h
+	"DoubleNode.h"
+
+1381192248 /home/hugo/Documents/School/CS-331/DataStructures/headers/DoubleNode.h
+
+1381197949 source:/home/hugo/Documents/School/CS-331/DataStructures/C++_implementation/sources/testing.cpp
+	"../headers/LinkedList.h"
+	<cstdio>
+
+1381197867 /home/hugo/Documents/School/CS-331/DataStructures/C++_implementation/headers/LinkedList.h
+	"SingleNode.h"
+
+1380671444 /home/hugo/Documents/School/CS-331/DataStructures/C++_implementation/headers/SingleNode.h
+
