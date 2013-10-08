@@ -68,8 +68,7 @@ int DoublyLinkedList<T>::insert(T elem)
         current = head = new DoubleNode<T>(elem, NULL);
 
         return currentSize;
-    }
-    if(current->previous == NULL){
+    }else if(current->previous == NULL){
         current = new DoubleNode<T>(elem, current);
         head = current;
         current->next->previous = current;
@@ -97,6 +96,37 @@ int DoublyLinkedList<T>::append(T elem)
         tmp = tmp->next;
     }
     tmp->next = new DoubleNode<T>(elem, NULL, tmp);
+
+    return currentSize;
+}
+
+template <typename T>
+int DoublyLinkedList<T>::remove()
+{
+    DoubleNode<T>* tmp = current;
+
+    currentSize--;
+    if(current->previous == NULL && current->next == NULL){
+        current = NULL;
+        delete tmp;
+
+        return currentSize;
+    }else if(current->previous == NULL){
+        current = current->next;
+        delete tmp;
+
+        return currentSize;
+    }else if(current->next == NULL){
+        current = current->previous;
+        delete tmp;
+
+        return currentSize;
+    }
+
+    current->previous->next = current->next;
+    current->next->previous = current->previous;
+    current = current->previous;
+    delete tmp;
 
     return currentSize;
 }

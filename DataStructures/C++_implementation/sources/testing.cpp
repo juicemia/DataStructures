@@ -8,6 +8,9 @@ int main(int argc, char* argv[])
     myList.insert(4);
     //printf("Current element: %d\n", myList.getCurrentElement());
 
+    myList.remove();
+    printf("%d\n", myList.getCurrentSize());
+/*
     myList.insert(5);
     //printf("Current element: %d\n", myList.getCurrentElement());
 
@@ -15,11 +18,22 @@ int main(int argc, char* argv[])
     //myList.jumpToNode(2);
     //printf("Current element: %d\n", myList.getCurrentElement());
 
-    myList.jumpToTail();
-    for(int i = myList.getCurrentSize() - 1; i >= 0; i--){
+    printf("Before removing: \n");
+    myList.jumpToHead();
+    for(int i = 0; i < myList.getCurrentSize(); i++){
         printf("Current element: %d\n", myList.getCurrentElement());
-        myList.prevNode();
+        myList.nextNode();
     }
 
+    myList.jumpToTail();
+    myList.remove();
+
+    printf("After removing:\n");
+    myList.jumpToHead();
+    for(int i = 0; i < myList.getCurrentSize(); i++){
+        printf("Current element: %d\n", myList.getCurrentElement());
+        myList.nextNode();
+    }
+*/
 	return 0;
 }
