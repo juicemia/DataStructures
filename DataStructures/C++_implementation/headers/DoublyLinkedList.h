@@ -103,22 +103,21 @@ int DoublyLinkedList<T>::append(T elem)
 template <typename T>
 int DoublyLinkedList<T>::remove()
 {
-    DoubleNode<T>* tmp = current;
-
     currentSize--;
     if(current->previous == NULL && current->next == NULL){
-        current = NULL;
-        delete tmp;
+        head = NULL;
+        delete current;
 
         return currentSize;
     }else if(current->previous == NULL){
         current = current->next;
-        delete tmp;
+        head = current;
+        delete current->previous;
 
         return currentSize;
     }else if(current->next == NULL){
         current = current->previous;
-        delete tmp;
+        delete current->next;
 
         return currentSize;
     }
@@ -126,7 +125,6 @@ int DoublyLinkedList<T>::remove()
     current->previous->next = current->next;
     current->next->previous = current->previous;
     current = current->previous;
-    delete tmp;
 
     return currentSize;
 }
