@@ -24,7 +24,7 @@ class DoublyLinkedList
 
         void nextNode();
         void prevNode();
-        void jumpNode(int pos);
+        void jumpToNode(int pos);
         void jumpToHead(); //in this implementation the head is just the first element
         void jumpToTail(); //same as above except the tail is the last element
 };
@@ -118,13 +118,13 @@ void DoublyLinkedList<T>::prevNode()
 }
 
 template <typename T>
-void DoublyLinkedList<T>::jumpNode(int pos)
+void DoublyLinkedList<T>::jumpToNode(int pos)
 {
     if(pos >= currentSize || pos < 0)
         return;
 
     current = head;
-    for(int i = 0; i <= pos; i++)
+    for(int i = 0; i < pos; i++)
         current = current->next;
 }
 
@@ -138,7 +138,7 @@ template <typename T>
 void DoublyLinkedList<T>::jumpToTail()
 {
     current = head;
-    for(int i = 0; i < currentSize; i++)
+    while(current->next != NULL)
         current = current->next;
 }
 #endif //_DOUBLY_LINKED_LIST_H_
