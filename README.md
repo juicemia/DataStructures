@@ -8,11 +8,11 @@ Implemented data structures:
 ============
 C++:
 
-	Node
-	Array List
+	Nodes for Singly Linked Lists and Doubly Linked Lists
+	Array based List
 	Singly Linked List
 	Stack (Array implementation)
-
+	Doubly Linked List
 C:
 
 	Node
