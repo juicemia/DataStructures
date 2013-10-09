@@ -4,16 +4,25 @@
 int main(int argc, char* argv[])
 {
     LinkedStack<int> myStack;
-    int size = myStack.getCurrentSize();
-    printf("Current size: %d\n", size);
+    printf("Current size: %d\n", myStack.getCurrentSize());
 
     myStack.push(4);
-    size = myStack.getCurrentSize();
-    printf("Current size:%d\n", size);
+    printf("Current size: %d\n", myStack.getCurrentSize());
+    printf("Current element: %d\n", myStack.peek());
 
     myStack.push(5);
-    size = myStack.getCurrentSize();
-    printf("Current size:%d\n", size);
+    printf("Current size: %d\n", myStack.getCurrentSize());
+    printf("Current element: %d\n", myStack.peek());
+
+    int popped = myStack.pop();
+    printf("Current size: %d\n", myStack.getCurrentSize());
+    printf("Current element: %d\n", myStack.peek());
+    printf("Popped element: %d\n", popped);
+
+    popped = myStack.pop();
+    printf("Current size: %d\n", myStack.getCurrentSize());
+    printf("Current element: %d\n", myStack.peek());
+    printf("Popped element: %d\n", popped);
 
 	return 0;
 }
