@@ -13,7 +13,6 @@ class ArrayQueue
 
     public:
         ArrayQueue();
-        ArrayQueue(int size);
         ArrayQueue(T* elem_init, int size);
         ~ArrayQueue();
 
@@ -27,22 +26,17 @@ class ArrayQueue
 template <typename T>
 ArrayQueue<T>::ArrayQueue()
 {
-    elements = NULL;
     currentSize = 0;
-}
-
-template <typename T>
-ArrayQueue<T>::ArrayQueue(int size)
-{
-    elements = new T[size];
-    currentSize = size;
+    currentIndex = 0;
+    elements = NULL;
 }
 
 template <typename T>
 ArrayQueue<T>::ArrayQueue(T* elem_init, int size)
 {
-    elements = new T[size];
+    currentIndex = 0;
     currentSize = size;
+    elements = new T[size];
     for(int i = 0; i < currentSize; i++){
         elements[i] = elem_init[i];
     }
@@ -66,7 +60,52 @@ int ArrayQueue<T>::getCurrentSize()
 template <typename T>
 T ArrayQueue<T>::getCurrentElement()
 {
-        return elements[0];
+    return elements[0];
+}
+
+template <typename T>
+int ArrayQueue<T>::enqueue(T elem)
+{
+    currentSize++;
+
+    if(currentSize == 1){
+        elements = new T;
+        elements[0] = elem;
+
+        return currentSize;
+    }
+
+    T* tmp = new T[currentSize];
+    for(int i = 0; i < currentSize - 1; i++){
+        tmp[i] = elements[i];
+    }
+    tmp[currentSize - 1] = elem;
+    elements = tmp;
+
+    return currentSize;
+}
+
+template <typename T>
+T ArrayQueue<T>::dequeue()
+{
+    currentSize--;
+    T ret = elements[0];
+
+    if(currentSize == 0){
+        delete elements;
+        elements = NULL;
+
+        return ret;
+    }
+
+    T* tmp = new T[currentSize];
+    for(int i = 0; i < currentSize; i++){
+        tmp[i] = elements[i + 1];
+    }
+    delete elements;
+    elements = tmp;
+
+    return ret;
 }
 
 #endif //_ARRAY_QUEUE_H_
