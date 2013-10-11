@@ -33,7 +33,7 @@ Algorithms:
 ============
 Peak finding:
 	
-		Proof that every exists has a proof + asymptotic complexity analysis of both 1D algorithms
-		1D Greedy Algorithm
-		1D Recursive Algorithm
+	Proof that every exists has a proof + asymptotic complexity analysis of both 1D algorithms
+	1D Greedy Algorithm
+	1D Recursive Algorithm
 		
