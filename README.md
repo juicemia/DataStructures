@@ -36,4 +36,5 @@ Peak finding:
 	Proof that every exists has a proof + asymptotic complexity analysis of both 1D algorithms
 	1D Greedy Algorithm
 	1D Recursive Algorithm
+	2D Greedy Algorithm
 		
