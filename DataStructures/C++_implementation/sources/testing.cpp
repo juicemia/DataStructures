@@ -1,28 +1,30 @@
-#include "../headers/LinkedStack.h"
+#include "../headers/ArrayQueue.h"
 #include <cstdio>
 
 int main(int argc, char* argv[])
 {
-    LinkedStack<int> myStack;
-    printf("Current size: %d\n", myStack.getCurrentSize());
+    ArrayQueue<int> myQueue;
 
-    myStack.push(4);
-    printf("Current size: %d\n", myStack.getCurrentSize());
-    printf("Current element: %d\n", myStack.peek());
+    myQueue.enqueue(5);
+    printf("myQueue.enqueue(5);\n");
+    printf("Current size: %d\n", myQueue.getCurrentSize());
+    printf("Current element: %d\n\n", myQueue.getCurrentElement());
 
-    myStack.push(5);
-    printf("Current size: %d\n", myStack.getCurrentSize());
-    printf("Current element: %d\n", myStack.peek());
+    myQueue.enqueue(6);
+    printf("myQueue.enqueue(6);\n");
+    printf("Current size: %d\n", myQueue.getCurrentSize());
+    printf("Current element: %d\n\n", myQueue.getCurrentElement());
 
-    int popped = myStack.pop();
-    printf("Current size: %d\n", myStack.getCurrentSize());
-    printf("Current element: %d\n", myStack.peek());
-    printf("Popped element: %d\n", popped);
+    int dqed = myQueue.dequeue();
+    printf("myQueue.dequeue();\n");
+    printf("Current size: %d\n", myQueue.getCurrentSize());
+    printf("Dequeued element: %d\n", dqed);
+    printf("Current element: %d\n\n", myQueue.getCurrentElement());
 
-    popped = myStack.pop();
-    printf("Current size: %d\n", myStack.getCurrentSize());
-    printf("Current element: %d\n", myStack.peek());
-    printf("Popped element: %d\n", popped);
+    dqed = myQueue.dequeue();
+    printf("myQueue.dequeue();\n");
+    printf("Current size: %d\n", myQueue.getCurrentSize());
+    printf("Dequeued element: %d\n", dqed);
 
 	return 0;
 }
