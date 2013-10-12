@@ -58,8 +58,38 @@ def find_2D_peak_greedy(array_2d):
 				elif (array_2d[i][j] >= array_2d[i][j+1] and array_2d[i][j] >= array_2d[i][j-1] and array_2d[i][j] >= array_2d[i+1][j] and array_2d[i][j] >= array_2d[i-1][j]):
 						return array_2d[i][j]
 
-array = ((1, 10, 15, -1000), (3, 9, 189, 791), (79, 791, 56, 189))
 
+# In this approach, first I find the maximum element of the middle column j,
+# and then, in the row i, which the maximum element belongs to, I try to see if there is a peak there.
+# If not then recurse until the peak is found
+def find_2D_peak_recMax(array_2d, low, high):
+	
+	# Rows of the 2D array
+	rows = len(array_2d)
+	# Middle column in between the low and high columns
+	mid_col = int((low + high)/2) - 1
+	print "%d" % mid_col
+	# Declare temporary max index to be the first element of the column
+	max = 0
+	
+	# Find the maximum value in the column
+	for i in range(rows):
+			max = max if max > array_2d[i][mid_col] else i
+	
+	# Edge cases
+	if (mid_col == 0 or mid_col == rows - 1):
+		return array_2d[max][mid_col]
+
+	if (array_2d[max][mid_col] <= array_2d[max][mid_col - 1]): # go to the left
+		return find_2D_peak_recMax(array_2d, low, mid_col)
+	elif (array_2d[max][mid_col] <= array_2d[max][mid_col + 1]): # go to the right
+		return find_2D_peak_recMax(array_2d, mid_col, high)
+	return array_2d[max][mid_col] # jackpot
+	
+
+array = ((1, 10, 15, 120, -5, -100, 150, 879, 10, 77), (1, 10, 15, 120, -5, -100, 150, 879, 10, 77), (1, 10, 15, 120, -5, -100, 150, 879, 10, 77))
+#array = ((1, ), (2, ), (3, ))
 # Answers might differ from the two functions because they approach the problem differently
 # However, both answers will be peaks.
 print "%d" % find_2D_peak_greedy(array)
+print "%d" % find_2D_peak_recMax(array, 0, len(array[0]))
