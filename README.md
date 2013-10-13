@@ -39,6 +39,7 @@ Algorithms:
 	1D Recursive Algorithm
 	2D Greedy Algorithm
 	2D Recursive Algorithm
+	2D Recursive Splitting Algorithm
 
 **Document Distance**:
 
