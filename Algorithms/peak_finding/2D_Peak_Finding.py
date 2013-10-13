@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Please read 2D_peak_finding.pdf asymptotic complexity analysis of the algorithms
-# There will be at least three algorithms
+# There will be at least two algorithms
 
 # Keep in mind, all of the algorithms find a peak, not all the peaks
 
@@ -59,7 +59,7 @@ def find_2D_peak_greedy(array_2d):
 						return array_2d[i][j]
 
 
-# In this approach, first I find the maximum element of the middle column j,
+# In this approach, first I find the maximum element of the middle column,
 # and then, in the row i, which the maximum element belongs to, I try to see if there is a peak there.
 # If not then recurse until the peak is found
 def find_2D_peak_recMax(array_2d, low, high):
@@ -84,10 +84,11 @@ def find_2D_peak_recMax(array_2d, low, high):
 	elif (array_2d[max][mid_col] <= array_2d[max][mid_col + 1]): # go to the right
 		return find_2D_peak_recMax(array_2d, mid_col, high)
 	return array_2d[max][mid_col] # jackpot
-	
+
 
 array = ((1, 10, 15, 20, 879, 10, 77), (1, 10, 15, 20, 879, 10, 77), (1, 10, 15, 20, 879, 10, 77))
 #array = ((1, ), (2, ), (3, ))
+
 # Answers might differ from the two functions because they approach the problem differently
 # However, both answers will be peaks.
 print "%d" % find_2D_peak_greedy(array)
