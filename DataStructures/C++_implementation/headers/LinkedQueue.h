@@ -36,7 +36,13 @@ LinkedQueue<T>::LinkedQueue(T elem_init)
 template <typename T>
 LinkedQueue<T>::~LinkedQueue()
 {
-
+    SingleNode<T>* tmp = tail;
+    while(tmp->next != NULL){
+        tmp = tmp->next;
+        delete tmp;
+    }
+    delete tail;
+    currentSize = 0;
 }
 
 template <typename T>
