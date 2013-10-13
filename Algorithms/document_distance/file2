@@ -1,0 +1,284 @@
+
+Stack Overflow
+
+    Questions
+    Tags
+    Tour
+    Users
+
+    Ask Question
+
+Tell me more ×
+Stack Overflow is a question and answer site for professional and enthusiast programmers. It's 100% free, no registration required.
+Python: read file line by line into array
+up vote 160 down vote favorite
+46
+	
+
+How do I read every line of a file in Python and store each line as an element in an array?
+
+I want to read the file line by line and each line is appended to the end of the array. I could not find how to do this anywhere and I couldn't find how to create an array of strings in Python.
+python string file
+share|improve this question
+	
+edited Sep 3 '12 at 2:33
+Mike Graham
+18.4k33467
+	
+asked Jul 18 '10 at 22:25
+Julie Raswick
+804263
+	
+1 	 
+	
+Here's a real-world example that shows how to read/write a file: dreamsyssoft.com/python-scripting-tutorial/classes-tutorial.php –  Triton Man Aug 8 at 19:01
+5 Answers
+active oldest votes
+up vote 236 down vote
+	
+
+with open(fname) as f:
+    content = f.readlines()
+
+I'm guessing that you meant list and not array.
+share|improve this answer
+	
+edited Feb 6 at 18:22
+user0118999881999119725 3
+9011
+	
+answered Jul 18 '10 at 22:28
+SilentGhost
+66.7k14128185
+	
+	 
+	
+In this case, which array contains the lines? –  Anderson Green May 19 at 18:04
+1 	 
+	
+Content is the list that contains the read lines. –  Sammy May 22 at 9:02
+2 	 
+	
+How can we strip() the lines using this method? Because the elements have "\n" at the end. –  AliBZ Aug 26 at 18:33
+up vote 146 down vote
+	
+
+See Input and Ouput:
+
+f = open('filename')
+lines = f.readlines()
+f.close()
+
+or with stripping the newline character:
+
+lines = [line.strip() for line in open('filename')]
+
+share|improve this answer
+	
+answered Jul 18 '10 at 22:28
+Felix Kling
+191k25265327
+	
+10 	 
+	
+if you only want to discard the newline: lines = (line.rstrip('\n') for line in open(filename)) –  Janus Troelsen Oct 11 '12 at 10:14
+	 
+	
+Thank you, the example with the stripped newline character is excellent! –  dotancohen May 20 at 18:06
+	 
+	
+For a list it should be lines = [line.rstrip('\n') for line in open(filename)] –  Lazik 49 mins ago
+up vote 54 down vote
+	
+
+This is more explicit than necessary, but does what you want.
+
+ins = open( "file.txt", "r" )
+array = []
+for line in ins:
+    array.append( line )
+
+share|improve this answer
+	
+answered Jul 18 '10 at 22:27
+robert
+8,61332444
+	
+	 
+	
+thanks it worked –  Julie Raswick Jul 18 '10 at 22:29
+16 	 
+	
+You want to be sure to call ins.close() if you use this method –  aaronasterling Jul 19 '10 at 0:09
+	 
+	
+@aaronasterling what happens when you don't call ins.close()? –  wrongusername Nov 27 '11 at 0:35
+6 	 
+	
+@wrongusername the file stays open and consumes resources. It won't be automatically garbage collected until ins goes out of scope. –  aaronasterling Nov 30 '11 at 20:40
+up vote 26 down vote
+	
+
+This will yield an "array" of lines from the file.
+
+lines = tuple(open(filename, 'r'))
+
+share|improve this answer
+	
+answered Jul 18 '10 at 22:27
+Noctis Skytower
+3,96521843
+	
+up vote 4 down vote
+	
+
+Another option is numpy.genfromtxt, e.g:
+
+import numpy as np
+data = np.genfromtxt("yourfile.dat",delimiter="\n")
+
+This will make data a numpy array with as many rows as are in your file
+share|improve this answer
+	
+answered Jun 18 at 10:17
+atomh33ls
+1,334312
+	
+Your Answer
+ 
+Post as a guest
+Name
+Email
+
+By posting your answer, you agree to the privacy policy and terms of service.
+Not the answer you're looking for? Browse other questions tagged python string file or ask your own question.
+
+tagged
+python × 227941
+string × 46095
+file × 24542
+
+asked
+	
+
+3 years ago
+
+viewed
+	
+
+246353 times
+
+active
+	
+
+3 months ago
+Linked
+1
+Selecting and printing specific rows of text file
+3
+how to subtract fields pairwise in bash?
+2
+How to read file line by line in file?
+0
+Split array into smaller arrays using few conditions
+1
+Python - replace random items in column
+0
+Python stdin, readlines. change output order
+0
+reading a file and getting each line of the file separately
+-5
+Want to read sequential lines in a file and do some mathematical calculation
+Related
+70
+Search and replace a line in a file in Python
+723
+How do I check if a file exists using Python?
+34
+How do I wrap a string in a file in Python?
+369
+Why is reading lines from stdin much slower in C++ than Python?
+1
+read snippet of file with regular expressions from text file in python
+1
+File reading and regex - Python
+2
+Extract data from lines of text file in Python
+4
+Python - read in a previously 'list' variable from file
+3
+Reading a file line by line into elements of an array in Python
+-5
+Reading selected portion of line and soting it in array
+question feed
+about help badges blog chat data legal privacy policy jobs advertising info mobile contact us feedback
+Technology 	Life / Arts 	Culture / Recreation 	Science 	Other
+
+    Stack Overflow
+    Server Fault
+    Super User
+    Web Applications
+    Ask Ubuntu
+    Webmasters
+    Game Development
+    TeX - LaTeX
+
+	
+
+    Programmers
+    Unix & Linux
+    Ask Different (Apple)
+    WordPress Answers
+    Geographic Information Systems
+    Electrical Engineering
+    Android Enthusiasts
+    Information Security
+
+	
+
+    Database Administrators
+    Drupal Answers
+    SharePoint
+    User Experience
+    Mathematica
+    more (13)
+
+	
+
+    Photography
+    Science Fiction & Fantasy
+    Seasoned Advice (cooking)
+    Home Improvement
+    more (13)
+
+	
+
+    English Language & Usage
+    Skeptics
+    Mi Yodeya (Judaism)
+    Travel
+    Christianity
+    Arqade (gaming)
+    Bicycles
+    Role-playing Games
+    more (21)
+
+	
+
+    Mathematics
+    Cross Validated (stats)
+    Theoretical Computer Science
+    Physics
+    MathOverflow
+    more (7)
+
+	
+
+    Stack Apps
+    Meta Stack Overflow
+    Area 51
+    Stack Overflow Careers
+
+site design / logo © 2013 stack exchange inc; user contributions licensed under cc-wiki with attribution required
+rev 2013.10.11.1073
+
