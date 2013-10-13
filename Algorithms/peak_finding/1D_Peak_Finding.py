@@ -34,9 +34,10 @@ def find_peak_recursive(array, low, high):
 		return find_peak_recursive(array, n, high)
 	else: # a peak, since array[n-1] <= array[n] <= array[n+1]
 		return array[n]
-array = (1, 10, 15, 120, -5, -100, 150, 879, 10, 77)
+#array = (1, 10, 15, 120, -5, -100, 150, 879, 10, 77)
 
 # Answers might differ from the two functions because they approach the problem differently
 # However, both answers will be peaks.
-print "%d" % find_peak_greedy(array)
-print "%d" % find_peak_recursive(array, 0, len(array))
+
+#print "%d" % find_peak_greedy(array)
+#print "%d" % find_peak_recursive(array, 0, len(array))
