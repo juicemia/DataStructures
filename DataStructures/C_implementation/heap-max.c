@@ -1,6 +1,6 @@
 #include "heap.h"
 
-static void add2Heap(tree_node_t**, int);
+static void heap2Tree(tree_node_t**, int);
 static void copyNode(tree_node_t *, tree_node_t **);
 static void printNode(tree_node_t *);
 static void removeNode(bst_t *, tree_node_t *, int, tree_node_t **);
@@ -133,7 +133,7 @@ static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **
 	}
 	
 }
-static void add2Heap(tree_node_t** node, int value){
+static void add2Tree(tree_node_t** node, int value){
 	/*
 	 * A recursive method to add a @param value to 
 	 * the tree, in a location, where it belongs
