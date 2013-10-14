@@ -15,6 +15,7 @@ struct tree_node {
 typedef struct binary_search_tree {
 	tree_node_t *root;
 	int size;
+	int depth; // added depth for the heaps
 } bst_t;
 
 void tree_add(bst_t *, int);
