@@ -9,21 +9,28 @@ void heap_add(heap_t *heap, int value){
 	/*
 	 * A method to add to a heap that can be called externally
 	 */
-	
+
 	/*
 	 * This means that the creation of new layer is needed, since
 	 * heap is a complete tree
-	 */ 
-	if (heap->size == (2^(heap->depth) - 1)){ 
-		heap->depth++;	
+	 */
+	if (heap->size == ((0x2 << (heap->depth - 1)) - 1)){
+        /*
+            2^(heap->depth) wouldn't work
+            for an unknown reason, so I raise 2 to the heap->depth power
+            by shifting the neccessary bits to the left.
+
+            No idea why 2^x is inaccurate though
+        */
+		heap->depth++;
 	} else if (!heap->size){
 		// heap is empty
 		heap->size = 0;
 		heap->depth = 1;
 	}
-	
+
 	add2Heap(&heap->root, value, heap, 1);
-	heap->size++;	
+	heap->size++;
 }
 void heap_remove(heap_t *heap, int value){
 	/**
@@ -76,7 +83,7 @@ void print_heap(heap_t *heap){
 int contains_heap(heap_t *heap, int value){
 	/**
 	 * Calls generic method for binary trees
-	 * to check whether a heap contains 
+	 * to check whether a heap contains
 	 * @param value
 	 */
 	return contains(heap, value);
@@ -98,7 +105,7 @@ static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **
 				(*parent)->right = NULL;
 			}
 			free(node);
-			return;	
+			return;
 		} else if((node)->right == NULL){ // it doesn't have right child; this means the left child will replace the node
 			if (parent == NULL) { // root node to be remove
 				tree->root = node->left; //empty tree
@@ -108,7 +115,7 @@ static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **
 				(*parent)->right = (node)->left;
 			}
 			free(node);
-			return;	
+			return;
 		} else if((node)->right->left == NULL){ // it has a right child that doesn't have a left child
 			if (parent == NULL) { // root node to be remove
 				tree->root = node->right; //empty tree
@@ -119,12 +126,12 @@ static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **
 			}
 			(node)->right->left = (node)->left;	//the new node repoints to the removed node's left child
 			free(node);
-			return;	
+			return;
 		} else { // it has a right child that has a left child
 
 			// need to find left-most child
 			tree_node_t* left_most = getLeftMost((node)->right->left, (node)->right);
-	
+
 			if (parent == NULL) { // root node to be remove
 				tree->root = left_most; //empty tree
 			} else if((*parent)->value > (node)->value){ //this node is parent's left child
@@ -142,34 +149,34 @@ static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **
 	} else {
 		removeNode(tree, node->left, value, &node);
 	}
-	
+
 }
 static tree_node_t **add2Heap(tree_node_t** node, int value, heap_t *heap, int depth){
 	/*
-	 * A recursive method to add a @param value to 
+	 * A recursive method to add a @param value to
 	 * the heap, in a location, where it belongs
-	 * 
+	 *
 	 * Asymptotic complexity of the addition to the heap is the same as
 	 * of the binary tree - O(lg(n))
 	 */
-	
+
 	tree_node_t **child_node; // temporary pointer to pointer to node for the upheap calls
-	
-	if(*node == NULL && heap->depth == depth){ // good place to insert the node 
+
+	if(*node == NULL && heap->depth == depth){ // good place to insert the node
 		*node = malloc(sizeof(tree_node_t));
 		(*node)->value = value;
 		return node;
-	} else if (heap->depth == depth){ 
+	} else if (heap->depth == depth){
 		//reached bottom depth but it's already occupied
 		return NULL;
-	} 
+	}
 	// if it comes here, then regular climbing down the tree
 	else { // just insert anywhere possible
 		// always start with the left child
 		if (child_node = add2Heap(&(*node)->left, value, heap, depth + 1)){
 			upheap(child_node, node, 1, heap);
 			return child_node; // successful call
-		} else if (child_node = add2Heap(&(*node)->right, value, heap, depth + 1)){ 
+		} else if (child_node = add2Heap(&(*node)->right, value, heap, depth + 1)){
 			upheap(child_node, node, 0, heap);
 			return child_node; // successful call
 		} else {
@@ -181,10 +188,10 @@ static tree_node_t **add2Heap(tree_node_t** node, int value, heap_t *heap, int d
 static void upheap(tree_node_t **node, tree_node_t **parent, int position /* 1 - left, 0 - right */, heap_t *heap){
 	if ((*node)->value > (*parent)->value){
 		// The nodes need to be exchanged
-		
+
 		if (heap->root == *parent) // parent node is the root node => the root node pointer needs to be updated
-			heap->root = *parent;
-			
+			heap->root = *node;
+
 		if (position){
 			// the node is the left child of the parent
 			(*node)->left = *parent;
