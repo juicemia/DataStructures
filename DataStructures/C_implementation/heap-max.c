@@ -3,7 +3,7 @@
 static tree_node_t **add2Heap(tree_node_t **, int, heap_t *, int);
 static void removeNode(bst_t *, tree_node_t *, int, tree_node_t **);
 static tree_node_t *getLeftMost(tree_node_t *, tree_node_t *);
-static void upheap(tree_node_t **, tree_node_t **, int, heap_t *);
+static void upheap(tree_node_t **, tree_node_t *, int, heap_t *);
 
 void heap_add(heap_t *heap, int value){
 	/*
@@ -174,10 +174,10 @@ static tree_node_t **add2Heap(tree_node_t** node, int value, heap_t *heap, int d
 	else { // just insert anywhere possible
 		// always start with the left child
 		if (child_node = add2Heap(&(*node)->left, value, heap, depth + 1)){
-			upheap(child_node, node, 1, heap);
+			upheap(child_node, *node, 1, heap);
 			return child_node; // successful call
 		} else if (child_node = add2Heap(&(*node)->right, value, heap, depth + 1)){
-			upheap(child_node, node, 0, heap);
+			upheap(child_node, *node, 0, heap);
 			return child_node; // successful call
 		} else {
 			// OOPS, no space here, have to climb back a tree up one level
@@ -185,28 +185,29 @@ static tree_node_t **add2Heap(tree_node_t** node, int value, heap_t *heap, int d
 		}
 	}
 }
-static void upheap(tree_node_t **node, tree_node_t **parent, int position /* 1 - left, 0 - right */, heap_t *heap){
-	if ((*node)->value > (*parent)->value){
+static void upheap(tree_node_t **node, tree_node_t *parent, int position /* 1 - left, 0 - right */, heap_t *heap){
+	if ((*node)->value > (parent)->value){
 		// The nodes need to be exchanged
-
-		if (heap->root == *parent) // parent node is the root node => the root node pointer needs to be updated
-			heap->root = *node;
 
 		if (position){
 			// the node is the left child of the parent
-			(*node)->left = *parent;
-			(*node)->right = (*parent)->right;
+			(*node)->left = parent;
+			(*node)->right = (parent)->right;
 		} else{
 			// the node is the right child of the parent
-			(*node)->right = *parent;
-			(*node)->left = (*parent)->left;
+			(*node)->right = parent;
+			(*node)->left = (parent)->left;
 		}
-		(*parent)->right = NULL;
-		(*parent)->left = NULL;
+
+        if (heap->root == parent) // parent node is the root node => the root node pointer needs to be updated
+			heap->root = *node;
+		(parent)->right = NULL;
+		(parent)->left = NULL;
+
 	}
 }
 static tree_node_t *getLeftMost(tree_node_t *node, tree_node_t *parent){
-	/*
+	/**
 	 * Retrieves the leftmost node of the @param parent
 	 */
 	if(node->left != NULL){
