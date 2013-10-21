@@ -195,26 +195,26 @@ static tree_node_t **upheap(tree_node_t *node, tree_node_t *parent, int position
 
 		if (position){
 			// the node is the left child of the parent
-			(node)->left = parent;
-			(node)->right = (parent)->right;
+			node->left = parent;
+			node->right = parent->right;
 		} else{
 			// the node is the right child of the parent
-			(node)->right = parent;
-			(node)->left = (parent)->left;
+			node->right = parent;
+			node->left = parent->left;
 		}
 
         if (heap->root == parent) // parent node is the root node => the root node pointer needs to be updated
 			heap->root = node;
-		(parent)->right = temp_right;
-		(parent)->left = temp_left;
+		parent->right = temp_right;
+		parent->left = temp_left;
 
-	} else if (parent->left != NULL && node->value > parent->left->value){ // need to make sure parent has a child
+	} else if (parent->left != NULL && position && node->value > parent->left->value){ // need to make sure parent has a child
 	    // This means that the parent's left child
 	    // has already been exchanged with the
 	    // current node
 	    parent->left = node;
 
-	} else if (parent->right != NULL && node->value > parent->right->value){
+	} else if (parent->right != NULL && !position && node->value > parent->right->value){
         // Same with the right side
         parent->right = node;
 	}
