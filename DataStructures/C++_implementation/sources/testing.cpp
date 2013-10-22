@@ -1,10 +1,10 @@
-#include "../headers/BTreeNode.h"
+#include "../headers/BinaryTree.h"
 #include <cstdio>
 
 int main(int argc, char* argv[])
 {
-    BTreeNode<int> myNode(5);
-    BTreeNode<int> child(4, &myNode, NULL);
+    BinaryTree<int> myTree;
+    //myTree.insert(4, NULL);
 
 	return 0;
 }
