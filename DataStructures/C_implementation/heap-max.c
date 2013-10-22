@@ -1,5 +1,9 @@
 #include "heap.h"
 
+#define NODE_VAL node->value
+#define RIGHT_CHILD node->right
+#define LEFT_CHILD node->left
+
 static tree_node_t **add2Heap(tree_node_t **, int, heap_t *, int);
 static void removeNode(bst_t *, tree_node_t *, int, tree_node_t **);
 static tree_node_t *getRightMost(tree_node_t *, tree_node_t *);
@@ -91,24 +95,43 @@ int contains_heap(heap_t *heap, int value){
 	return contains(heap, value);
 }
 
-static void removeNode(heap_t *heap, tree_node_t *node, int value, tree_node_t **parent){
+static void removeNode(heap_t *heap, tree_node_t *node, int value, tree_node_t **parent, int depth, int position = 0 /* 1 - left, 0 - right */){
 	/*
 	 * A recursive method to remove the node from the tree
 	 */
 	if (node == NULL) {
 		return;
-	} else if (node->value == value){
-		if (parent == NULL) { // root node to be remove
-				heap->root = NULL; //empty tree
-		} else {
+	} else if (NODE_VAL == value){
+		if (LEFT_CHILD == NULL && RIGHT_CHILD == NULL) { //removing a leaf
+                if (parent == NULL) // root node to be remove
+                    heap->root = NULL; //empty tree
+                else if (position) // this node is parent's left child
+                    (*parent)->left = NULL;
+                else // this node is parent's right child
+                    (*parent)->right = NULL;
+		} else { // it's not a leaf
+            tree_node_t *new_node = getRightMost(node, parent, depth, heap);
+            if (position) // this is parent's left child
+                (*parent)->left = new_node;
+            else // this node is parent's right child
+                (*parent)->right = new_node;
 
+            // update the children
+            new_LEFT_CHILD = LEFT_CHILD;
+            new_RIGHT_CHILD = RIGHT_CHILD;
+
+            if (heap->root == node) //root node is being deleted
+                heap->root = new_node;
+
+            downheap()
 		}
+		free(node);
 	} // recursive calls
-	 else if (node->value > value){
+	 else if (NODE_VAL > value){
             tree_node_t *temp_node;
 
             // perform calls
-            if (temp_node = removeNode(heap, node->right, value, &node) || temp_node = removeNode(heap, node->left, value, &node))
+            if (temp_node = removeNode(heap, RIGHT_CHILD, value, &node, depth + 1, 0) || temp_node = removeNode(heap, LEFT_CHILD, value, &node, depth + 1, 1))
                 return temp_node;
 	} else {
 	    // it cannot be here since it's larger than the node's value
@@ -150,22 +173,33 @@ static tree_node_t **add2Heap(tree_node_t** node, int value, heap_t *heap, int d
 		}
 	}
 }
+static void downheap(tree_node_t *node, tree_node_t *parent, int position /* 1 - left, 0 - right */, heap_t *heap){
+    if (NODE_VAL < LEFT_CHILD->value && NODE_VAL < RIGHT_CHILD->value){ // both of the children are larger than the parent
+        // declare the pointer that will hold the maximum of the two parent
+        tree_node_t *max = LEFT_CHILD->value > RIGHT_CHILD->value ? LEFT_CHILD : RIGHT_CHILD;
+
+    } else if(NODE_VAL < LEFT_CHILD->value){
+    } else if(ODE_VAL < RIGHT_CHILD->value){
+
+    }
+    // If none of these happens, that means the node is in place
+}
 static tree_node_t **upheap(tree_node_t *node, tree_node_t *parent, int position /* 1 - left, 0 - right */, heap_t *heap){
-	if (node->value > parent->value){
+	if (NODE_VAL > parent->value){
 		// The nodes need to be exchanged
 
 		// Temporary variables
-        tree_node_t *temp_right = node->right;
-        tree_node_t *temp_left = node->left;
+        tree_node_t *temp_right = RIGHT_CHILD;
+        tree_node_t *temp_left = LEFT_CHILD;
 
 		if (position){
 			// the node is the left child of the parent
-			node->left = parent;
-			node->right = parent->right;
+			LEFT_CHILD = parent;
+			RIGHT_CHILD = parent->right;
 		} else{
 			// the node is the right child of the parent
-			node->right = parent;
-			node->left = parent->left;
+			RIGHT_CHILD = parent;
+			LEFT_CHILD = parent->left;
 		}
 
         if (heap->root == parent) // parent node is the root node => the root node pointer needs to be updated
@@ -173,19 +207,19 @@ static tree_node_t **upheap(tree_node_t *node, tree_node_t *parent, int position
 		parent->right = temp_right;
 		parent->left = temp_left;
 
-	} else if (parent->left != NULL && position && node->value > parent->left->value){ // need to make sure parent has a child
+	} else if (parent->left != NULL && position && NODE_VAL > parent->left->value){ // need to make sure parent has a child
 	    // This means that the parent's left child
 	    // has already been exchanged with the
 	    // current node
 	    parent->left = node;
 
-	} else if (parent->right != NULL && !position && node->value > parent->right->value){
+	} else if (parent->right != NULL && !position && NODE_VAL > parent->right->value){
         // Same with the right side
         parent->right = node;
 	}
 	return &node;
 }
-static tree_node_t *getRightMost(tree_node_t *node, tree_node_t *parent, int depth, heap_t *heap, int position /* 1 - left, 0 - right */){
+static tree_node_t *getRightMost(tree_node_t *node, tree_node_t *parent, int depth, heap_t *heap, int position = 0 /* 1 - left, 0 - right */){
 	/**
 	 * Retrieves the rightmost node of the @param parent
 	 */
@@ -193,6 +227,13 @@ static tree_node_t *getRightMost(tree_node_t *node, tree_node_t *parent, int dep
 	 tree_node_t *found_node; // temporary node
 
     if (heap->depth == depth){
+        /**
+                This cannot happen the first time around,
+                because the leaves are checked off before
+                there would be a chance for this method to
+                be called
+        */
+
         // we are at the leaves' level
         if (position){
             parent->left = NULL;	// resets the parent so that it wouldn't have left child
@@ -201,9 +242,9 @@ static tree_node_t *getRightMost(tree_node_t *node, tree_node_t *parent, int dep
         }
         return node;
     } else{
-        if(found_node = getRightMost(node->right, node, depth + 1, heap, 0)){
+        if(found_node = getRightMost(RIGHT_CHILD, node, depth + 1, heap, 0)){
             return found_node;
-        } else if(found_node = getRightMost(node->left, node, depth + 1, heap, 1)){
+        } else if(found_node = getRightMost(LEFT_CHILD, node, depth + 1, heap, 1)){
             return found_node;
         } else {
             return NULL;
