@@ -21,9 +21,9 @@ class BTreeNode {
         BTreeNode<T>* getRightChild();
 
         void setElement(T elem);
-        void setParent(BTreeNode<T>*);
-        void setLeftChild(BTreeNode<T>*);
-        void setRightChild(BTreeNode<T>*);
+        BTreeNode<T>* setParent(BTreeNode<T>*);
+        BTreeNode<T>* setLeftChild(BTreeNode<T>*);
+        BTreeNode<T>* setRightChild(BTreeNode<T>*);
 };
 
 template <typename T>
@@ -83,20 +83,23 @@ void BTreeNode<T>::setElement(T elem)
 }
 
 template <typename T>
-void BTreeNode<T>::setParent(BTreeNode<T>* p)
+BTreeNode<T>* BTreeNode<T>::setParent(BTreeNode<T>* p)
 {
     parent = p;
+    return parent;
 }
 
 template <typename T>
-void BTreeNode<T>::setLeftChild(BTreeNode<T>* l)
+BTreeNode<T>* BTreeNode<T>::setLeftChild(BTreeNode<T>* l)
 {
     left = l;
+    return left;
 }
 
 template <typename T>
-void BTreeNode<T>::setRightChild(BTreeNode<T>* r)
+BTreeNode<T>* BTreeNode<T>::setRightChild(BTreeNode<T>* r)
 {
     right = r;
+    return right;
 }
 #endif //_B_TREE_NODE_H_
