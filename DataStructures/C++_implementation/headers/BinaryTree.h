@@ -1,17 +1,15 @@
 /*
  * The Binary Tree class only covers methods that apply to a whole tree.
- * Since a Node can also be considered a tree (it's a subtree of the whole tree)
- * inserting/appending/removing are handled by the user. This is to give
- * maximum control to users over where they put their nodes with minimum
- * overhead. I haven't been able to think up an efficient way to allow a user
- * to choose where exactly they want their nodes. It's much easier to have
- * the BTreeNode's own setter methods return the address of the node they
- * just created. Since there's no way of knowing exactly where the node is going
- * to be before runtime, it's much easier for the user to keep track of exactly
- * how their tree is looking. It also gives the user more control because
- * there's no deterministic method for placing new nodes and removing old ones.
- * The user gets to pick what side simply by manipulating the variables they
- * create, or by keeping track of where they are in relationship to the head.
+ *
+ * Handling insertion/deletion of individual nodes is infeasible in this
+ * structure because there's no sure way of knowing where the node needs to
+ * be inserted/deleted. Where as in a Binary Search Tree, for example, there's a
+ * sure way of knowing where the node goes by it's value in relation to other
+ * nodes, in this tree there's no way of knowing.
+ *
+ * I admit this probably isn't a very useful data structure because there's no
+ * built-in rule for organizing the data. But it's designed to give the user
+ * maximum control over where they want their nodes to go.
  */
 
 #ifndef _BINARY_TREE_H_
