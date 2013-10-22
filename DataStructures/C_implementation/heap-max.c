@@ -2,7 +2,7 @@
 
 static tree_node_t **add2Heap(tree_node_t **, int, heap_t *, int);
 static void removeNode(bst_t *, tree_node_t *, int, tree_node_t **);
-static tree_node_t *getLeftMost(tree_node_t *, tree_node_t *);
+static tree_node_t *getRightMost(tree_node_t *, tree_node_t *);
 static tree_node_t **upheap(tree_node_t *, tree_node_t *, int, heap_t *);
 
 void heap_add(heap_t *heap, int value){
@@ -38,6 +38,8 @@ void heap_remove(heap_t *heap, int value){
 	 * heap that can be called externally
 	 */
 	removeNode(heap, heap->root, value, NULL);
+	if (heap->size == (0x2 << (heap->depth - 1)))
+        heap->depth--;
 	heap->size--;
 }
 int heap_peek_top(heap_t *heap){
@@ -89,65 +91,28 @@ int contains_heap(heap_t *heap, int value){
 	return contains(heap, value);
 }
 
-static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **parent){
+static void removeNode(heap_t *heap, tree_node_t *node, int value, tree_node_t **parent){
 	/*
 	 * A recursive method to remove the node from the tree
 	 */
 	if (node == NULL) {
 		return;
-	} else if ((node)->value == value){
-		if ((node)->left == NULL && (node)->right == NULL){ // a leaf
-			if (parent == NULL) { // root node to be remove
-				tree->root = NULL; //empty tree
-			} else	if((*parent)->value > (node)->value){ //this node is parent's left child
-				(*parent)->left = NULL;
-			} else { //this node is parent's right child
-				(*parent)->right = NULL;
-			}
-			free(node);
-			return;
-		} else if((node)->right == NULL){ // it doesn't have right child; this means the left child will replace the node
-			if (parent == NULL) { // root node to be remove
-				tree->root = node->left; //empty tree
-			} else if((*parent)->value > (node)->value){ //this node is parent's left child
-				(*parent)->left = (node)->left;
-			} else { //this node is parent's right child
-				(*parent)->right = (node)->left;
-			}
-			free(node);
-			return;
-		} else if((node)->right->left == NULL){ // it has a right child that doesn't have a left child
-			if (parent == NULL) { // root node to be remove
-				tree->root = node->right; //empty tree
-			} else if((*parent)->value > (node)->value){ //this node is parent's left child
-				(*parent)->left = (node)->right;
-			} else { //this node is parent's right child
-				(*parent)->right = (node)->right;
-			}
-			(node)->right->left = (node)->left;	//the new node repoints to the removed node's left child
-			free(node);
-			return;
-		} else { // it has a right child that has a left child
+	} else if (node->value == value){
+		if (parent == NULL) { // root node to be remove
+				heap->root = NULL; //empty tree
+		} else {
 
-			// need to find left-most child
-			tree_node_t* left_most = getLeftMost((node)->right->left, (node)->right);
-
-			if (parent == NULL) { // root node to be remove
-				tree->root = left_most; //empty tree
-			} else if((*parent)->value > (node)->value){ //this node is parent's left child
-				(*parent)->left = left_most;
-			} else { //this node is parent's right child
-				(*parent)->right = left_most;
-			}
-			left_most->left = (node)->left; //the new node repoints to the removed node's left child
-			left_most->right = (node)->right; // the new node is the parent of its previous parent
-			free(node);
-			return;
 		}
-	} else if ((node)->value < value){
-		removeNode(tree, node->right, value, &node);
+	} // recursive calls
+	 else if (node->value > value){
+            tree_node_t *temp_node;
+
+            // perform calls
+            if (temp_node = removeNode(heap, node->right, value, &node) || temp_node = removeNode(heap, node->left, value, &node))
+                return temp_node;
 	} else {
-		removeNode(tree, node->left, value, &node);
+	    // it cannot be here since it's larger than the node's value
+	    return NULL;
 	}
 
 }
@@ -220,14 +185,28 @@ static tree_node_t **upheap(tree_node_t *node, tree_node_t *parent, int position
 	}
 	return &node;
 }
-static tree_node_t *getLeftMost(tree_node_t *node, tree_node_t *parent){
+static tree_node_t *getRightMost(tree_node_t *node, tree_node_t *parent, int depth, heap_t *heap, int position /* 1 - left, 0 - right */){
 	/**
-	 * Retrieves the leftmost node of the @param parent
+	 * Retrieves the rightmost node of the @param parent
 	 */
-	if(node->left != NULL){
-		getLeftMost(node->left, node);
-	} else { // `node` is the leftmost child
-		parent->left = NULL;	// resets the parent so that it wouldn't have left child
-		return node;
-	}
+
+	 tree_node_t *found_node; // temporary node
+
+    if (heap->depth == depth){
+        // we are at the leaves' level
+        if (position){
+            parent->left = NULL;	// resets the parent so that it wouldn't have left child
+        } else{
+            parent->right = NULL;	// -""- right child
+        }
+        return node;
+    } else{
+        if(found_node = getRightMost(node->right, node, depth + 1, heap, 0)){
+            return found_node;
+        } else if(found_node = getRightMost(node->left, node, depth + 1, heap, 1)){
+            return found_node;
+        } else {
+            return NULL;
+        }
+    }
 }
