@@ -6,6 +6,15 @@ int main() {
 	heap_add(ll, 10);
 	heap_add(ll, 11);
 	heap_add(ll, 9);
+	heap_add(ll, 5);
+	heap_add(ll, 18);
+	heap_add(ll, 7);
+	heap_add(ll, 15);
+	heap_add(ll, 87);
+	heap_add(ll, 12);
+	heap_add(ll, 32);
+	heap_add(ll, 48);
+	heap_add(ll, 799);
 	print_tree(ll);
 
 	//printf("%d \n", contains(ll, 4));
