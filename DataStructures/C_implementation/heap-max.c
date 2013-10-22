@@ -1,13 +1,16 @@
 #include "heap.h"
 
+// Let's make the use of the preprocessor, shall we?
 #define NODE_VAL node->value
 #define RIGHT_CHILD node->right
 #define LEFT_CHILD node->left
+#define ROOT heap->root
 
 static tree_node_t **add2Heap(tree_node_t **, int, heap_t *, int);
 static void removeNode(bst_t *, tree_node_t *, int, tree_node_t **);
 static tree_node_t *getRightMost(tree_node_t *, tree_node_t *);
 static tree_node_t **upheap(tree_node_t *, tree_node_t *, int, heap_t *);
+static void downheap(tree_node_t *, tree_node_t *, int);
 
 void heap_add(heap_t *heap, int value){
 	/*
@@ -33,7 +36,7 @@ void heap_add(heap_t *heap, int value){
 		heap->depth = 1;
 	}
 
-	add2Heap(&heap->root, value, heap, 1);
+	add2Heap(&ROOT, value, heap, 1);
 	heap->size++;
 }
 void heap_remove(heap_t *heap, int value){
@@ -41,7 +44,7 @@ void heap_remove(heap_t *heap, int value){
 	 * A method to delete an item with @param value from the
 	 * heap that can be called externally
 	 */
-	removeNode(heap, heap->root, value, NULL);
+	removeNode(heap, ROOT, value, NULL);
 	if (heap->size == (0x2 << (heap->depth - 1)))
         heap->depth--;
 	heap->size--;
@@ -104,7 +107,7 @@ static void removeNode(heap_t *heap, tree_node_t *node, int value, tree_node_t *
 	} else if (NODE_VAL == value){
 		if (LEFT_CHILD == NULL && RIGHT_CHILD == NULL) { //removing a leaf
                 if (parent == NULL) // root node to be remove
-                    heap->root = NULL; //empty tree
+                    ROOT = NULL; //empty tree
                 else if (position) // this node is parent's left child
                     (*parent)->left = NULL;
                 else // this node is parent's right child
@@ -117,13 +120,13 @@ static void removeNode(heap_t *heap, tree_node_t *node, int value, tree_node_t *
                 (*parent)->right = new_node;
 
             // update the children
-            new_LEFT_CHILD = LEFT_CHILD;
-            new_RIGHT_CHILD = RIGHT_CHILD;
+            new_node->left = LEFT_CHILD;
+            new_node->right = RIGHT_CHILD;
 
-            if (heap->root == node) //root node is being deleted
-                heap->root = new_node;
+            if (ROOT == node) //root node is being deleted
+                ROOT = new_node;
 
-            downheap()
+            downheap(node, parent, position);
 		}
 		free(node);
 	} // recursive calls
@@ -173,14 +176,85 @@ static tree_node_t **add2Heap(tree_node_t** node, int value, heap_t *heap, int d
 		}
 	}
 }
-static void downheap(tree_node_t *node, tree_node_t *parent, int position /* 1 - left, 0 - right */, heap_t *heap){
+static void downheap(tree_node_t *node, tree_node_t *parent, int position /* 1 - left, 0 - right */){
+    tree_node_t *temp_right, *temp_left; // temporary variables for the swap
+
     if (NODE_VAL < LEFT_CHILD->value && NODE_VAL < RIGHT_CHILD->value){ // both of the children are larger than the parent
         // declare the pointer that will hold the maximum of the two parent
         tree_node_t *max = LEFT_CHILD->value > RIGHT_CHILD->value ? LEFT_CHILD : RIGHT_CHILD;
+        int temp_pos; // for the recursive call
+
+        // update parent pointer
+        if (position)
+            parent->left = max;
+        else
+            parent->right = max;
+
+        // typical swap operation
+        temp_right = max->right;
+        temp_left = max->left;
+
+        if (max == LEFT_CHILD){
+            max->right = node->right;
+            max->left= node;
+            temp_pos = 1; // temporary position update for the downheap recursive call
+        } else{
+            max->left = node->left;
+            max->right = node;
+            temp_pos = 0; // temporary position update for the downheap recursive call
+        }
+
+        LEFT_CHILD = temp_left;
+        RIGHT_CHILD = temp_right;
+        // swap done
+
+        // call downheap again, to ensure the flow down the tree
+        downheap(node, max, temp_pos);
+
 
     } else if(NODE_VAL < LEFT_CHILD->value){
-    } else if(ODE_VAL < RIGHT_CHILD->value){
+        // update parent pointer
+        if (position)
+            parent->left = LEFT_CHILD;
+        else
+            parent->right = LEFT_CHILD;
 
+        //swap
+        temp_right = LEFT_CHILD->left;
+        temp_left = LEFT_CHILD->right;
+
+        LEFT_CHILD->left = node;
+        LEFT_CHILD->right = node->right;
+
+        LEFT_CHILD = temp_left;
+        RIGHT_CHILD = temp_right;
+
+        // swap done
+
+        // call downheap again, to ensure the flow down the tree
+        downheap(node, LEFT_CHILD, 1);
+
+    } else if(NODE_VAL < RIGHT_CHILD->value){
+        // update parent pointer
+        if (position)
+            parent->left = RIGHT_CHILD;
+        else
+            parent->right = RIGHT_CHILD;
+
+        //swap
+        temp_right = RIGHT_CHILD->left;
+        temp_left = RIGHT_CHILD->right;
+
+        RIGHT_CHILD->right = node;
+        RIGHT_CHILD->left = node->left;
+
+        LEFT_CHILD = temp_left;
+        RIGHT_CHILD = temp_right;
+
+        // swap done
+
+        // call downheap again, to ensure the flow down the tree
+        downheap(node, RIGHT_CHILD, 0);
     }
     // If none of these happens, that means the node is in place
 }
@@ -202,8 +276,8 @@ static tree_node_t **upheap(tree_node_t *node, tree_node_t *parent, int position
 			LEFT_CHILD = parent->left;
 		}
 
-        if (heap->root == parent) // parent node is the root node => the root node pointer needs to be updated
-			heap->root = node;
+        if (ROOT == parent) // parent node is the root node => the root node pointer needs to be updated
+			ROOT = node;
 		parent->right = temp_right;
 		parent->left = temp_left;
 
