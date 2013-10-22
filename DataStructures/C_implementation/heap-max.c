@@ -62,6 +62,7 @@ void empty_heap(heap_t *heap){
 	 * to empty the heap
 	 */
 	empty_tree(heap);
+	heap->depth = 0; // needed because binary tree doesn't have depth variable
 }
 void copy_heap(heap_t *heap, heap_t *target){
 	/**
@@ -69,6 +70,7 @@ void copy_heap(heap_t *heap, heap_t *target){
 	 * to copy the heap
 	 */
 	copy_tree(heap, target);
+	target->depth = heap->depth; // needed because binary tree doesn't have depth variable
 }
 int heap_isEmpty(heap_t *heap){
 	/*
