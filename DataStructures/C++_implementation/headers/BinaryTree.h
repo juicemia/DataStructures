@@ -26,6 +26,11 @@ class BinaryTree {
 
         BinaryTree();
         BinaryTree(T);
+
+        //traversals
+        void preorder(BTreeNode<T>*, void (*func)(BTreeNode<T>*));
+        void inorder(BTreeNode<T>*, void (*func)(BTreeNode<T>*));
+        void postorder(BTreeNode<T>*, void (*func)(BTreeNode<T>*));
 };
 
 template <typename T>
@@ -40,4 +45,36 @@ BinaryTree<T>::BinaryTree(T elem)
     head = new BTreeNode<T>(elem);
 }
 
+template <typename T>
+void BinaryTree<T>::preorder(BTreeNode<T>* node, void (*func)(BTreeNode<T>*))
+{
+    if(node == NULL)
+        return;
+
+    func(node);
+    preorder(node->getLeftChild(), func);
+    preorder(node->getRightChild(), func);
+}
+
+template <typename T>
+void BinaryTree<T>::inorder(BTreeNode<T>* node, void (*func)(BTreeNode<T>*))
+{
+    if(node == NULL)
+        return;
+
+    inorder(node->getLeftChild(), func);
+    func(node);
+    inorder(node->getRightChild(), func);
+}
+
+template <typename T>
+void BinaryTree<T>::postorder(BTreeNode<T>* node, void (*func)(BTreeNode<T>*))
+{
+    if(node == NULL)
+        return;
+
+    postorder(node->getLeftChild(), func);
+    postorder(node->getRightChild(), func);
+    func(node);
+}
 #endif //_BINARY_TREE_H_
