@@ -45,7 +45,7 @@ void heap_remove(heap_t *heap, int value){
 	 * heap that can be called externally
 	 */
 	removeNode(heap, ROOT, value, NULL, 1, 0);
-	if (heap->size == (0x2 << (heap->depth - 1)))
+	if (heap->size == (0x2 << (heap->depth - 1) - 1))
         heap->depth--;
 	heap->size--;
 }
@@ -108,19 +108,38 @@ static tree_node_t **removeNode(heap_t *heap, tree_node_t *node, int value, tree
 		return;
 	} else if (NODE_VAL == value){
 		if (LEFT_CHILD == NULL && RIGHT_CHILD == NULL) { //removing a leaf
-                if (parent == NULL) // root node to be remove
+                if (parent == NULL) {// root node to be remove
                     ROOT = NULL; //empty tree
-                else if (position) // this node is parent's left child
-                    (*parent)->left = NULL;
-                else // this node is parent's right child
-                    (*parent)->right = NULL;
-		} else { // it's not a leaf
-		    tree_node_t *new_node;
-		    if (node == ROOT){ // NULL cannot be called with pointer to pointer
-                new_node = getRightMost(node, NULL, depth, heap, 0);
-            } else{
-                new_node = getRightMost(node, *parent, depth, heap, 0);
+                } else if (depth < heap->depth){ // the special case occured
+                    /**
+                        We need to handle the case such that a leaf is removed,
+                        but that leaf is not at the bottom level. Therefore, that leaf
+                        needs to be replaced with another leaf that is at the bottom level
+                    */
+                    tree_node_t *new_node = getRightMost(heap->root, NULL, 1, heap, 0);
 
+                    // set the parent to have a new child
+                    if (position) // this is parent's left child
+                        (*parent)->left = new_node;
+                    else // this node is parent's right child
+                        (*parent)->right = new_node;
+
+                    // upheap is needed in case the node is bigger than the parent
+                    upheap(new_node, *parent, position, heap);
+
+                    // let's return the address of the new_node pointer to
+                    // ensure that upheaping will be recursive
+                    return &new_node;
+                }
+                else if (position){ // this node is parent's left child
+                    (*parent)->left = NULL;
+                } else{ // this node is parent's right child
+                    (*parent)->right = NULL;
+                }
+		} else { // it's not a leaf
+		    tree_node_t *new_node = getRightMost(heap->root, NULL, 1, heap, 0);
+
+		    if (node != ROOT){ // NULL cannot be called with pointer to pointer
                 if (position) // this is parent's left child
                     (*parent)->left = new_node;
                 else // this node is parent's right child
@@ -143,10 +162,15 @@ static tree_node_t **removeNode(heap_t *heap, tree_node_t *node, int value, tree
             tree_node_t **temp_node;
 
             // perform calls
-            if (temp_node = removeNode(heap, RIGHT_CHILD, value, &node, depth + 1, 0))
-                 return temp_node;
-            else if(temp_node = removeNode(heap, LEFT_CHILD, value, &node, depth + 1, 1))
+            if (temp_node = removeNode(heap, RIGHT_CHILD, value, &node, depth + 1, 0)){
+                if (parent != NULL)
+                    upheap(*temp_node, *parent, position, heap); // this is in particularly for the silly leaf thingy
                 return temp_node;
+            } else if(temp_node = removeNode(heap, LEFT_CHILD, value, &node, depth + 1, 1)){
+                if (parent != NULL)
+                    upheap(*temp_node, *parent, position, heap); // this is in particularly for the silly leaf thingy
+                return temp_node;
+            }
 	} else {
 	    // it cannot be here since it's larger than the node's value
 	    return NULL;
@@ -317,6 +341,8 @@ static tree_node_t **upheap(tree_node_t *node, tree_node_t *parent, int position
 static tree_node_t *getRightMost(tree_node_t *node, tree_node_t *parent, int depth, heap_t *heap, int position /* 1 - left, 0 - right */){
 	/**
 	 * Retrieves the rightmost node of the @param parent
+     * This always has to be called with the
+     * heap->root for the first time in the reccurence!!!
 	 */
 
 	 tree_node_t *found_node; // temporary node
