@@ -1,5 +1,10 @@
 #include "bst.h"
 
+#define NODE_VAL node->value
+#define RIGHT_CHILD node->right
+#define LEFT_CHILD node->left
+#define ROOT tree->root
+
 static void add2Tree(tree_node_t**, int);
 static void removeTreeValue(tree_node_t **);
 static void copyNode(tree_node_t *, tree_node_t **);
@@ -13,15 +18,15 @@ void tree_add(bst_t *tree, int value){
 	/*
 	 * A method to add to a tree that can be called externally
 	 */
-	add2Tree(&tree->root, value);
-	tree->size++;	
+	add2Tree(&ROOT, value);
+	tree->size++;
 }
 void tree_remove(bst_t *tree, int value){
 	/**
 	 * A method to delete an item with @param value from the
 	 * tree that can be called externally
 	 */
-	removeNode(tree, tree->root, value, NULL);
+	removeNode(tree, ROOT, value, NULL);
 	tree->size--;
 }
 int tree_peek_root(bst_t *bst){
@@ -36,15 +41,15 @@ void empty_tree(bst_t *tree){
 	/**
 	 * Makes the tree empty
 	 */
-	removeTreeValue(&tree->root);
+	removeTreeValue(&ROOT);
 	tree->size = 0;
-	tree->root = NULL;
+	ROOT = NULL;
 }
 void copy_tree(bst_t *tree, bst_t *target){
 	/**
 	 * Copies the tree from @param tree to @param target
 	 */
-	copyNode(tree->root, &target->root);
+	copyNode(ROOT, &target->root);
 }
 int tree_isEmpty(bst_t *tree){
 	/*
@@ -62,13 +67,13 @@ void print_tree(bst_t *tree){
 	/*
 	 * Prints the tree via inorder traversal
 	 */
-	printNode(tree->root);
+	printNode(ROOT);
 }
 int contains(bst_t *tree, int value){
 	/**
 	 * Checks whether the tree contains @param value
 	 */
-	return findNode(tree->root, value);
+	return findNode(ROOT, value);
 }
 static int findNode(tree_node_t *node, int value){
 	/*
@@ -76,9 +81,9 @@ static int findNode(tree_node_t *node, int value){
 	 * If the node is not found, 0 is returned
 	 */
 	if (node == NULL) return 0;
-	else if (node->value == value)	return 1;
-	else if (node->value < value) return findNode(node->right, value);
-	else return findNode(node->left, value);
+	else if (NODE_VAL == value)	return 1;
+	else if (NODE_VAL < value) return findNode(RIGHT_CHILD, value);
+	else return findNode(LEFT_CHILD, value);
 }
 static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **parent){
 	/*
@@ -89,27 +94,27 @@ static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **
 	} else if ((node)->value == value){
 		if ((node)->left == NULL && (node)->right == NULL){ // a leaf
 			if (parent == NULL) { // root node to be remove
-				tree->root = NULL; //empty tree
+				ROOT = NULL; //empty tree
 			} else	if((*parent)->value > (node)->value){ //this node is parent's left child
 				(*parent)->left = NULL;
 			} else { //this node is parent's right child
 				(*parent)->right = NULL;
 			}
 			free(node);
-			return;	
+			return;
 		} else if((node)->right == NULL){ // it doesn't have right child; this means the left child will replace the node
 			if (parent == NULL) { // root node to be remove
-				tree->root = node->left; //empty tree
+				ROOT = LEFT_CHILD; //empty tree
 			} else if((*parent)->value > (node)->value){ //this node is parent's left child
 				(*parent)->left = (node)->left;
 			} else { //this node is parent's right child
 				(*parent)->right = (node)->left;
 			}
 			free(node);
-			return;	
+			return;
 		} else if((node)->right->left == NULL){ // it has a right child that doesn't have a left child
 			if (parent == NULL) { // root node to be remove
-				tree->root = node->right; //empty tree
+				ROOT = RIGHT_CHILD; //empty tree
 			} else if((*parent)->value > (node)->value){ //this node is parent's left child
 				(*parent)->left = (node)->right;
 			} else { //this node is parent's right child
@@ -117,14 +122,14 @@ static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **
 			}
 			(node)->right->left = (node)->left;	//the new node repoints to the removed node's left child
 			free(node);
-			return;	
+			return;
 		} else { // it has a right child that has a left child
 
 			// need to find left-most child
 			tree_node_t* left_most = getLeftMost((node)->right->left, (node)->right);
-	
+
 			if (parent == NULL) { // root node to be remove
-				tree->root = left_most; //empty tree
+				ROOT = left_most; //empty tree
 			} else if((*parent)->value > (node)->value){ //this node is parent's left child
 				(*parent)->left = left_most;
 			} else { //this node is parent's right child
@@ -136,23 +141,23 @@ static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **
 			return;
 		}
 	} else if ((node)->value < value){
-		removeNode(tree, node->right, value, &node);
+		removeNode(tree, RIGHT_CHILD, value, &node);
 	} else {
-		removeNode(tree, node->left, value, &node);
+		removeNode(tree, LEFT_CHILD, value, &node);
 	}
-	
+
 }
 
-static void printNode(tree_node_t *node){	
+static void printNode(tree_node_t *node){
 	/*
 	 * Prints the node via inorder fashion
 	 */
 	if (node == NULL) return;
 	//in order traversal
-	printNode(node->left);
-	printf("%d \n", node->value);
-	printNode(node->right);
-	
+	printNode(LEFT_CHILD);
+	printf("%d \n", NODE_VAL);
+	printNode(RIGHT_CHILD);
+
 }
 static void copyNode(tree_node_t *node, tree_node_t **target){
 	/*
@@ -161,14 +166,14 @@ static void copyNode(tree_node_t *node, tree_node_t **target){
 	 */
 	if (node == NULL){
 		*target = NULL;
-		return;	
+		return;
 	}
 	//pre-order traversal
 	*target = malloc(sizeof(tree_node_t));
-	(*target)->value = node->value;
+	(*target)->value = NODE_VAL;
 
-	copyNode(node->left, &(*target)->left);
-	copyNode(node->right, &(*target)->right);
+	copyNode(LEFT_CHILD, &(*target)->left);
+	copyNode(RIGHT_CHILD, &(*target)->right);
 	free(node);
 }
 static void removeTreeValue(tree_node_t **node){
@@ -184,13 +189,13 @@ static void removeTreeValue(tree_node_t **node){
 }
 static void add2Tree(tree_node_t** node, int value){
 	/*
-	 * A recursive method to add a @param value to 
+	 * A recursive method to add a @param value to
 	 * the tree, in a location, where it belongs
 	 */
 	if(*node == NULL){// empty tree
 		*node = malloc(sizeof(tree_node_t));
 		(*node)->value = value;
-		
+
 		return;
 	} else if((*node)->value < value) { // node value is smaller
 		return add2Tree(&(*node)->right, value);
@@ -202,8 +207,8 @@ static tree_node_t *getLeftMost(tree_node_t *node, tree_node_t *parent){
 	/*
 	 * Retrieves the leftmost node of the @param parent
 	 */
-	if(node->left != NULL){
-		getLeftMost(node->left, node);
+	if(LEFT_CHILD != NULL){
+		getLeftMost(LEFT_CHILD, node);
 	} else { // `node` is the leftmost child
 		parent->left = NULL;	// resets the parent so that it wouldn't have left child
 		return node;
