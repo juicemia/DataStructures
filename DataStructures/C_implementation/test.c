@@ -16,6 +16,14 @@ int main() {
 	heap_add(ll, 48);
 	heap_add(ll, 799);
 	print_tree(ll);
+	puts("\n\n\n");
+	heap_remove(ll, 799);
+	heap_remove(ll, 7);
+	heap_remove(ll, 48);
+	heap_remove(ll, 10);
+	heap_remove(ll, 11);
+	heap_remove(ll, 9);
+	print_tree(ll);
 
 	//printf("%d \n", contains(ll, 4));
 	return 0;
