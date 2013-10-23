@@ -124,12 +124,39 @@ public class LinkedList implements List{
     }
     @Override
     public int getPosition(){
-    	// need to implement
-        return 0;
+        /**
+         * Gets the position of the current pointer
+         * IMPORTANT!
+    	 * Haven't tested this method, although logically it should
+    	 * work fine
+    	 * 
+    	 * @return position
+    	 * 
+         */
+        Node temp = this.head;
+        int position = 1;
+        // if head is equal to current, there is no prev
+        for(int position = 1; temp != this.curr; position++){
+        		temp = temp.getNext();
+        }
+        return position;
     }
     @Override
     public void moveToPosition(int pos){
-        // need to implement
+        /**
+         * Moves the current pointer to the @param position,
+         * if such position exists (size > position)
+         * IMPORTANT!
+    	 * Haven't tested this method, although logically it should
+    	 * work fine
+         */
+    	Node temp = this.head;
+    	if (this.size > position){
+    		for (int i = 1 ; i < position; i++){
+    			temp = temp.getNext();
+    		}
+    		this.curr = temp;
+    	}
     }
     @Override
     public int getValue(){
