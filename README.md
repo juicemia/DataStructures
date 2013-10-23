@@ -11,8 +11,12 @@ Implemented data structures:
 	Nodes for Singly Linked Lists and Doubly Linked Lists
 	Array based List
 	Singly Linked List
-	Stack (Array implementation)
 	Doubly Linked List
+	Stack (Linked list implementation)
+	Stack (Array implementation)
+	Queue (Linked list implementation)
+	Queue (Array implementation)
+	Dictionary
 **C**:
 
 	Node
@@ -24,10 +28,12 @@ Implemented data structures:
 	Priority Queue
 	Stack (Linked list implementation)
 	Stack (Array implementation)
+	Heap (Pointer implementation)
 
 **Java**:
 
 	Set
+	Linked List
 
 Algorithms:
 ============
