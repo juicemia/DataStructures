@@ -9,17 +9,18 @@ void print_int_node(BTreeNode<int>* node)
 int main(int argc, char* argv[])
 {
     BinaryTree<int> myTree(3);
-    printf("Tree head: %d\n", myTree.head->getElement());
+    printf("Tree root: %d\n", myTree.root->getElement());
 
-    myTree.head->setLeftChild(new BTreeNode<int>(4));
-    printf("Head->left: %d\n", myTree.head->getLeftChild()->getElement());
+    myTree.root->setLeftChild(new BTreeNode<int>(4));
+    printf("Root->left: %d\n", myTree.root->getLeftChild()->getElement());
 
-    myTree.head->setRightChild(new BTreeNode<int>(5));
-    printf("Head->right: %d\n", myTree.head->getRightChild()->getElement());
+    myTree.root->setRightChild(new BTreeNode<int>(5));
+    printf("Root->right: %d\n", myTree.root->getRightChild()->getElement());
 
-    myTree.head->getLeftChild()->setRightChild(new BTreeNode<int>(6));
+    myTree.root->getLeftChild()->setRightChild(new BTreeNode<int>(6));
 
-    myTree.postorder(myTree.head, print_int_node);
+    myTree.postorder(myTree.root, print_int_node);
+	printf("\n");
 
 	return 0;
 }

@@ -22,7 +22,7 @@
 template <typename T>
 class BinaryTree {
     public:
-        BTreeNode<T>* head;
+        BTreeNode<T>* root;
 
         BinaryTree();
         BinaryTree(T);
@@ -36,13 +36,13 @@ class BinaryTree {
 template <typename T>
 BinaryTree<T>::BinaryTree()
 {
-    head = NULL;
+    root = NULL;
 }
 
 template <typename T>
 BinaryTree<T>::BinaryTree(T elem)
 {
-    head = new BTreeNode<T>(elem);
+    root = new BTreeNode<T>(elem);
 }
 
 template <typename T>
