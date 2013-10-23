@@ -63,11 +63,25 @@ int tree_size(bst_t *tree){
 	 */
 	return tree->size;
 }
-void print_tree(bst_t *tree){
-	/*
+void print_tree(bst_t *tree, int traversal){
+	/**
 	 * Prints the tree via inorder traversal
+	 * @param traversal can hold three values: 0, 1, 2.
+	 * 0 - preorder traversal printing
+	 * 1 - inorder traversal printing
+	 * 2 - postorder traversal printing
 	 */
-	printNode(ROOT);
+	switch(traversal){
+        case 0:
+            preorder(ROOT, printNode);
+            break;
+        case 1:
+            inorder(ROOT, printNode);
+            break;
+        case 2:
+            postorder(ROOT, printNode);
+            break;
+	}
 }
 int contains(bst_t *tree, int value){
 	/**
@@ -149,15 +163,7 @@ static void removeNode(bst_t *tree, tree_node_t *node, int value, tree_node_t **
 }
 
 static void printNode(tree_node_t *node){
-	/*
-	 * Prints the node via inorder fashion
-	 */
-	if (node == NULL) return;
-	//in order traversal
-	printNode(LEFT_CHILD);
 	printf("%d \n", NODE_VAL);
-	printNode(RIGHT_CHILD);
-
 }
 static void copyNode(tree_node_t *node, tree_node_t **target){
 	/*
@@ -213,4 +219,28 @@ static tree_node_t *getLeftMost(tree_node_t *node, tree_node_t *parent){
 		parent->left = NULL;	// resets the parent so that it wouldn't have left child
 		return node;
 	}
+}
+void inorder(tree_node_t *node, void (*callback)(tree_node_t *)){
+    if (node == NULL) return;
+
+    //in order traversal
+    inorder(LEFT_CHILD, callback);
+    callback(node);
+    inorder(RIGHT_CHILD, callback);
+}
+void preorder(tree_node_t *node, void (*callback)(tree_node_t *)){
+    if (node == NULL) return;
+
+    //preorder traversal
+    callback(node);
+    inorder(LEFT_CHILD, callback);
+    inorder(RIGHT_CHILD, callback);
+}
+void postorder(tree_node_t *node, void (*callback)(tree_node_t *)){
+    if (node == NULL) return;
+
+    //postorder traversal
+    inorder(LEFT_CHILD, callback);
+    inorder(RIGHT_CHILD, callback);
+    callback(node);
 }

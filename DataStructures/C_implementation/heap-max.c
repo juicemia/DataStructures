@@ -84,20 +84,16 @@ int heap_size(heap_t *heap){
 	 */
 	return heap->size;
 }
-void print_heap(heap_t *heap){
-	/*
-	 * Calls generic method for binary trees
-	 * to print the heap
-	 */
-	print_tree(heap);
-}
-int contains_heap(heap_t *heap, int value){
+void print_heap(heap_t *heap, int traversal){
 	/**
 	 * Calls generic method for binary trees
-	 * to check whether a heap contains
-	 * @param value
+	 * to print the heap
+     * @param traversal can hold three values: 0, 1, 2.
+	 * 0 - preorder traversal printing
+	 * 1 - inorder traversal printing
+	 * 2 - postorder traversal printing
 	 */
-	return contains(heap, value);
+	print_tree(heap, traversal);
 }
 
 static tree_node_t **removeNode(heap_t *heap, tree_node_t *node, int value, tree_node_t **parent, int depth, int position /* 1 - left, 0 - right */){

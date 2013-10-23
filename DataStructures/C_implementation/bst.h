@@ -25,6 +25,9 @@ void empty_tree(bst_t *);
 void copy_tree(bst_t *, bst_t *);
 int tree_isEmpty(bst_t *);
 int tree_size(bst_t *);
-void print_tree(bst_t *);
+void print_tree(bst_t *, int traversal);
 int contains(bst_t *, int);
+void preorder(tree_node_t *, void (*)(tree_node_t *));
+void inorder(tree_node_t *, void (*)(tree_node_t *));
+void postorder(tree_node_t *, void (*)(tree_node_t *));
 #endif

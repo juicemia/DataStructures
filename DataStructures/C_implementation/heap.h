@@ -13,7 +13,6 @@ void empty_heap(heap_t *);
 void copy_heap(heap_t *, heap_t *);
 int heap_isEmpty(heap_t *);
 int heap_size(heap_t *);
-void print_heap(heap_t *);
-int contains_heap(heap_t *, int);
+void print_heap(heap_t *, int);
 
 #endif
