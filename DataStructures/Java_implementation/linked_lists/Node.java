@@ -1,11 +1,11 @@
 
 package linkedlists;
 
-public class Node {
-    private int value;
+public class <T> Node {
+    private T value;
     private Node next;
     // constructors
-    public Node(int v, Node nxt){
+    public Node(T v, Node nxt){
         this.value = v;
         this.next = nxt;
     }
@@ -18,15 +18,15 @@ public class Node {
         return this.next;
     }
     
-    void setNext(Node n){
+    public void setNext(Node n){
         this.next = n;
     }
     
-    int getValue(){
+    public T getValue(){
         return this.value;
     }
     
-    void setValue(int v){
+    public void setValue(int v){
         this.value = v;
     }
 }
