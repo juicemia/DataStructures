@@ -21,5 +21,6 @@ def printArray(ar):
 		print "%d, " % ar[i]
 
 ar = [0,13,4,53,64,2,645, 132]
+
 bubbleSort(ar)
 printArray(ar)
