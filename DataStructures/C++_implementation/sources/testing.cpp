@@ -1,26 +1,18 @@
-#include "../headers/BinaryTree.h"
+#include "../headers/BinarySearchTree.h"
 #include <cstdio>
 
-void print_int_node(BTreeNode<int>* node)
+void print_int_node(BTreeNode<int>* tgt)
 {
-    printf("%d ", node->getElement());
+    printf("%d, ", tgt->getElement());
 }
 
 int main(int argc, char* argv[])
 {
-    BinaryTree<int> myTree(3);
-    printf("Tree root: %d\n", myTree.root->getElement());
+    BinarySearchTree<int> myTree(5);
+    myTree.add(3);
 
-    myTree.root->setLeftChild(new BTreeNode<int>(4));
-    printf("Root->left: %d\n", myTree.root->getLeftChild()->getElement());
-
-    myTree.root->setRightChild(new BTreeNode<int>(5));
-    printf("Root->right: %d\n", myTree.root->getRightChild()->getElement());
-
-    myTree.root->getLeftChild()->setRightChild(new BTreeNode<int>(6));
-
-    myTree.postorder(myTree.root, print_int_node);
-	printf("\n");
+    printf("Pre-order: \n");
+    myTree.preOrder(print_int_node);
 
 	return 0;
 }
