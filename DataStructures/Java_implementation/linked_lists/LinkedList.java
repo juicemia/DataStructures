@@ -2,10 +2,10 @@
 package linkedlists;
 
 
-public class LinkedList implements List{
+public class <T> LinkedList implements List{
 	// Current and head pointers
-    Node head, curr;
-    int size;
+    private Node head, curr;
+    private int size;
     
     public LinkedList(){
     	// Initially just an empty list
@@ -33,7 +33,7 @@ public class LinkedList implements List{
         this.size = 0;
     }
     @Override
-    public void insert(int elem){
+    public void insert(T elem){
     	/**
     	 * Inserts @param elem to the list
     	 */
@@ -54,7 +54,7 @@ public class LinkedList implements List{
         this.size++;
     }
     @Override
-    public void append(int elem){
+    public void append(T elem){
     	/**
     	 * Appends the @param elem to the end of the list
     	 */
@@ -159,7 +159,7 @@ public class LinkedList implements List{
     	}
     }
     @Override
-    public int getValue(){
+    public T getValue(){
     	/**
     	 * Returns the value of the current element of the list.
     	 * The reason why it's curr.getNext(), because the current always
