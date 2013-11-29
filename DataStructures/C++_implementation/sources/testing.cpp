@@ -10,9 +10,11 @@ int main(int argc, char* argv[])
 {
     BinarySearchTree<int> myTree(5);
     myTree.add(3);
+    myTree.add(6);
+    myTree.add(4);
 
     printf("Pre-order: \n");
-    myTree.preOrder(print_int_node);
+    myTree.inOrder(print_int_node);
 
 	return 0;
 }

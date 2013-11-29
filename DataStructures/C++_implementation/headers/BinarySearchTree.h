@@ -64,6 +64,18 @@ void BinarySearchTree<T>::preOrder(void (*func)(BTreeNode<T>*))
 }
 
 template <typename T>
+void BinarySearchTree<T>::inOrder(void (*func)(BTreeNode<T>*))
+{
+    inOrderCore(root, func);
+}
+
+template <typename T>
+void BinarySearchTree<T>::postOrder(void (*func)(BTreeNode<T>*))
+{
+    postOrderCore(root, func);
+}
+
+template <typename T>
 void BinarySearchTree<T>::addCore(T elem, BTreeNode<T>* parent, BTreeNode<T>* tgt)
 {
     if(tgt == NULL){
