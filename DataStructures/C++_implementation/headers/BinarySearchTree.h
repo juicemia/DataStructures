@@ -13,6 +13,8 @@ class BinarySearchTree {
     void inOrderCore(BTreeNode<T>*, void (*func)(BTreeNode<T>*));
     void postOrderCore(BTreeNode<T>*, void (*func)(BTreeNode<T>*));
 
+    bool queryCore(T, BTreeNode<T>*);
+
     public:
         BinarySearchTree();
         BinarySearchTree(T);
@@ -25,6 +27,8 @@ class BinarySearchTree {
         void preOrder(void (*func)(BTreeNode<T>*));
         void inOrder(void (*func)(BTreeNode<T>*));
         void postOrder(void (*func)(BTreeNode<T>*));
+
+        bool query(T);
 };
 
 template <typename T>
@@ -75,6 +79,13 @@ void BinarySearchTree<T>::postOrder(void (*func)(BTreeNode<T>*))
     postOrderCore(root, func);
 }
 
+template <typename T>
+bool BinarySearchTree<T>::query(T val)
+{
+    return queryCore(val, root);
+}
+
+/***PRIVATE HELPER FUNCTIONS***/
 template <typename T>
 void BinarySearchTree<T>::addCore(T elem, BTreeNode<T>* parent, BTreeNode<T>* tgt)
 {
@@ -127,5 +138,25 @@ void BinarySearchTree<T>::postOrderCore(BTreeNode<T>* node, void (*func)(BTreeNo
     postOrderCore(node->getLeftChild(), func);
     postOrderCore(node->getRightChild(), func);
     func(node);
+}
+
+template <typename T>
+bool BinarySearchTree<T>::queryCore(T val, BTreeNode<T>* val_node)
+{
+    if(val == val_node->getElement()){
+        return true;
+    }else if(val < val_node->getElement()){
+        if(val_node->getLeftChild() != NULL){
+            queryCore(val, val_node->getLeftChild());
+        }else{
+            return false;
+        }
+    }else{
+        if(val_node->getRightChild() != NULL){
+            queryCore(val, val_node->getRightChild());
+        }else{
+            return false;
+        }
+    }
 }
 #endif //_BINARY_SEARCH_TREE_H_
