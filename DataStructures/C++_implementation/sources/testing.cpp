@@ -14,16 +14,12 @@ int main(int argc, char* argv[])
     myTree.add(4);
 
     printf("Pre-order: \n");
-    myTree.inOrder(print_int_node);
+    myTree.preOrder(print_int_node);
 
-    printf("Searching for 3: \n");
-    printf("%s", myTree.query(3) ? "PRESENT\n" : "MISSING\n");
+    printf("Removing 4\n");
+    myTree.remove(3);
 
-    printf("Searching for 2: \n");
-    printf("%s", myTree.query(2) ? "PRESENT\n" : "MISSING\n");
-
-    printf("Searching for 7: \n");
-    printf("%s", myTree.query(7) ? "PRESENT\n" : "MISSING\n");
+    myTree.preOrder(print_int_node);
 
 	return 0;
 }

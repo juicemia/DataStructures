@@ -14,6 +14,7 @@ class BTreeNode {
         BTreeNode(T);
         BTreeNode(T, BTreeNode<T>*, BTreeNode<T>*);
         BTreeNode(T, BTreeNode<T>*, BTreeNode<T>*, BTreeNode<T>*);
+        ~BTreeNode();
 
         T getElement();
         BTreeNode<T>* getParent();
@@ -50,6 +51,14 @@ BTreeNode<T>::BTreeNode(T elem, BTreeNode<T>* p, BTreeNode<T>* l, BTreeNode<T>* 
     parent = p;
     left = l;
     right = r;
+}
+
+template <typename T>
+BTreeNode<T>::~BTreeNode<T>()
+{
+    parent = NULL;
+    left = NULL;
+    right = NULL;
 }
 
 template <typename T>

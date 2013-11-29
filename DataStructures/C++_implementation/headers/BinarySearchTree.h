@@ -8,6 +8,7 @@ class BinarySearchTree {
     BTreeNode<T>* root;
 
     void addCore(T elem, BTreeNode<T>*, BTreeNode<T>*);
+    bool removeCore(T, BTreeNode<T>*);
 
     void preOrderCore(BTreeNode<T>*, void (*func)(BTreeNode<T>*));
     void inOrderCore(BTreeNode<T>*, void (*func)(BTreeNode<T>*));
@@ -23,6 +24,7 @@ class BinarySearchTree {
         void setRoot(T);
 
         void add(T);
+        bool remove(T);
 
         void preOrder(void (*func)(BTreeNode<T>*));
         void inOrder(void (*func)(BTreeNode<T>*));
@@ -83,6 +85,12 @@ template <typename T>
 bool BinarySearchTree<T>::query(T val)
 {
     return queryCore(val, root);
+}
+
+template <typename T>
+bool BinarySearchTree<T>::remove(T val)
+{
+    removeCore(val, root);
 }
 
 /***PRIVATE HELPER FUNCTIONS***/
@@ -154,6 +162,27 @@ bool BinarySearchTree<T>::queryCore(T val, BTreeNode<T>* val_node)
     }else{
         if(val_node->getRightChild() != NULL){
             queryCore(val, val_node->getRightChild());
+        }else{
+            return false;
+        }
+    }
+}
+
+template <typename T>
+bool BinarySearchTree<T>::removeCore(T val, BTreeNode<T>* val_node)
+{
+    if(val == val_node->getElement()){
+        delete val_node;
+        return true;
+    }else if(val < val_node->getElement()){
+        if(val_node->getLeftChild() != NULL){
+            removeCore(val, val_node->getLeftChild());
+        }else{
+            return false;
+        }
+    }else{
+        if(val_node->getRightChild() != NULL){
+            removeCore(val, val_node->getRightChild());
         }else{
             return false;
         }
