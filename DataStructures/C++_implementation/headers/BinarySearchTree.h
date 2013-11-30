@@ -172,6 +172,20 @@ template <typename T>
 bool BinarySearchTree<T>::removeCore(T val, BTreeNode<T>* val_node)
 {
     if(val == val_node->getElement()){
+        /*
+         * Restructure the tree's pointers before deleting the node
+         */
+        if(val_node->getLeftChild() != NULL && val_node->getRightChild() != NULL){
+
+        }else{
+            if(val_node->getLeftChild() != NULL){
+                val_node->getLeftChild()->setParent(val_node->getParent());
+                val_node->getParent()->setLeftChild(val_node->getLeftChild());
+            }else if(val_node->getRightChild() != NULL){
+                val_node->getRightChild()->setParent(val_node->getParent());
+                val_node->getParent()->setRightChild(val_node->getRightChild());
+            }
+        }
         delete val_node;
         return true;
     }else if(val < val_node->getElement()){

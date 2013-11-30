@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
     printf("Pre-order: \n");
     myTree.preOrder(print_int_node);
 
-    printf("Removing 4\n");
+    printf("Removing 3\n");
     myTree.remove(3);
 
     myTree.preOrder(print_int_node);
