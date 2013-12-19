@@ -8,16 +8,13 @@ class BinarySearchTree : public BinaryTree<T> {
 	void _add(BTreeNode<T>*, T elem);
 	
 	public:
-		BinarySearchTree(T elem);
+		BinarySearchTree(T elem) : BinaryTree<T>(elem)
+		{
+			//initialize root in base's constructor
+		};
 
 		void add(T);
 };
-
-template <typename T>
-BinarySearchTree<T>::BinarySearchTree(T elem) : BinaryTree<T>(elem)
-{
-	this->root = new BTreeNode<T>(elem);
-}
 
 template <typename T>
 void BinarySearchTree<T>::add(T elem)
