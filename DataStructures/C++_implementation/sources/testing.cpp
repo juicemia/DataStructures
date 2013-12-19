@@ -1,4 +1,4 @@
-#include "../headers/BinarySearchTree.h"
+#include "../headers/BinaryTree.h"
 #include <cstdio>
 
 void print_int_node(BTreeNode<int>* tgt)
@@ -8,18 +8,18 @@ void print_int_node(BTreeNode<int>* tgt)
 
 int main(int argc, char* argv[])
 {
-    BinarySearchTree<int> myTree(5);
-    myTree.add(3);
-    myTree.add(6);
-    myTree.add(4);
+    BinaryTree<int>* myTree = new BinaryTree<int>(7);
 
     printf("Pre-order: \n");
-    myTree.preOrder(print_int_node);
+    myTree->preorder(myTree->root, print_int_node);
+	printf("\n");
 
-    printf("Removing 3\n");
-    myTree.remove(3);
+	myTree->root->setLeftChild(new BTreeNode<int>(4));
+	printf("Pre-order: \n");
+	myTree->preorder(myTree->root, print_int_node);
+	printf("\n");
 
-    myTree.preOrder(print_int_node);
+	delete myTree;
 
 	return 0;
 }

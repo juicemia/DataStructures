@@ -19,11 +19,13 @@
 
 template <typename T>
 class BinaryTree {
-    public:
+	void _freeNodes(BTreeNode<T>*);
+	
+	public:
         BTreeNode<T>* root;
 
-        BinaryTree();
         BinaryTree(T);
+		~BinaryTree();
 
         //traversals
         void preorder(BTreeNode<T>*, void (*func)(BTreeNode<T>*));
@@ -32,15 +34,15 @@ class BinaryTree {
 };
 
 template <typename T>
-BinaryTree<T>::BinaryTree()
-{
-    root = NULL;
-}
-
-template <typename T>
 BinaryTree<T>::BinaryTree(T elem)
 {
     root = new BTreeNode<T>(elem);
+}
+
+template <typename T>
+BinaryTree<T>::~BinaryTree()
+{
+	_freeNodes(root);
 }
 
 template <typename T>
@@ -74,5 +76,17 @@ void BinaryTree<T>::postorder(BTreeNode<T>* node, void (*func)(BTreeNode<T>*))
     postorder(node->getLeftChild(), func);
     postorder(node->getRightChild(), func);
     func(node);
+}
+
+/***HELPER FUNCTIONS***/
+template <typename T>
+void BinaryTree<T>::_freeNodes(BTreeNode<T>* tgt)
+{
+    if(tgt == NULL)
+        return;
+
+    _freeNodes(tgt->getLeftChild());
+    _freeNodes(tgt->getRightChild());
+	delete tgt;
 }
 #endif //_BINARY_TREE_H_
