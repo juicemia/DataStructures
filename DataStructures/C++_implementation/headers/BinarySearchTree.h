@@ -13,6 +13,8 @@ class BinarySearchTree : public BinaryTree<T> {
 			//initialize root in base's constructor
 		};
 
+		~BinarySearchTree(){}
+
 		void add(T);
 };
 
