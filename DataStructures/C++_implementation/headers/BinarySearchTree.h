@@ -21,7 +21,7 @@ class BinarySearchTree : public BinaryTree<T> {
 template <typename T>
 void BinarySearchTree<T>::add(T elem)
 {
-	
+	_add(this->root, elem);
 }
 
 /***PRIVATE HELPER FUNCTIONS***/

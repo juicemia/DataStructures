@@ -14,9 +14,10 @@ int main(int argc, char* argv[])
     myTree->preorder(myTree->root, print_int_node);
 	printf("\n");
 
-	myTree->root->setLeftChild(new BTreeNode<int>(4));
+	myTree->add(4);
+	myTree->add(8);
 	printf("Pre-order: \n");
-	myTree->preorder(myTree->root, print_int_node);
+	myTree->postorder(myTree->root, print_int_node);
 	printf("\n");
 
 	delete myTree;
