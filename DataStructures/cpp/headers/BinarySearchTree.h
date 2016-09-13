@@ -6,7 +6,8 @@
 template <typename T>
 class BinarySearchTree : public BinaryTree<T> {
 	void _add(BTreeNode<T>*, T elem);
-	
+	void _removeMin(BTreeNode<T>*);
+
 	public:
 		BinarySearchTree(T elem) : BinaryTree<T>(elem)
 		{
@@ -16,12 +17,19 @@ class BinarySearchTree : public BinaryTree<T> {
 		~BinarySearchTree(){}
 
 		void add(T);
+		void removeMin();
 };
 
 template <typename T>
 void BinarySearchTree<T>::add(T elem)
 {
 	_add(this->root, elem);
+}
+
+template <typename T>
+void BinarySearchTree<T>::removeMin()
+{
+	_removeMin(this->root);
 }
 
 /***PRIVATE HELPER FUNCTIONS***/
@@ -41,6 +49,21 @@ void BinarySearchTree<T>::_add(BTreeNode<T>* n, T elem)
 			n->setLeftChild(new BTreeNode<T>(elem));
 		}
 	}
+}
+
+template <typename T>
+void BinarySearchTree<T>::_removeMin(BTreeNode<T>* n)
+{
+	BTreeNode<T>* left = n->getLeftChild();
+
+	if (left->getLeftChild() == NULL && left->getRightChild() == NULL) {
+		n->setLeftChild(n->getRightChild());
+		n->setRightChild(NULL);
+
+		return;
+	}
+
+	_removeMin(left);
 }
 
 #endif //_BINARY_SEARCH_TREE_H_

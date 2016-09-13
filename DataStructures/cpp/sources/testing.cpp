@@ -16,8 +16,13 @@ int main(int argc, char* argv[])
 
 	myTree->add(4);
 	myTree->add(8);
-	printf("Pre-order: \n");
-	myTree->postorder(myTree->root, print_int_node);
+	printf("pre-order: \n");
+	myTree->preorder(myTree->root, print_int_node);
+	printf("\n");
+
+	myTree->removeMin();
+	printf("pre-order: \n");
+	myTree->preorder(myTree->root, print_int_node);
 	printf("\n");
 
 	delete myTree;
