@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	myTree->preorder(myTree->root, print_int_node);
 	printf("\n");
 
-	myTree->removeMin();
+	myTree->remove(8);
 	printf("pre-order: \n");
 	myTree->preorder(myTree->root, print_int_node);
 	printf("\n");
