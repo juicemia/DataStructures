@@ -1,31 +1,18 @@
-#include "../headers/BinarySearchTree.h"
+#include "../headers/Heap.h"
 #include <cstdio>
 
-void print_int_node(BTreeNode<int>* tgt)
+class Comparator
 {
-    printf("%d, ", tgt->getElement());
-}
+	public:
+		static bool compare(int a, int b)
+		{
+			return a > b;
+		}
+};
 
 int main(int argc, char* argv[])
 {
-    BinarySearchTree<int>* myTree = new BinarySearchTree<int>(7);
-
-    printf("Pre-order: \n");
-    myTree->preorder(myTree->root, print_int_node);
-	printf("\n");
-
-	myTree->add(4);
-	myTree->add(8);
-	printf("pre-order: \n");
-	myTree->preorder(myTree->root, print_int_node);
-	printf("\n");
-
-	myTree->remove(8);
-	printf("pre-order: \n");
-	myTree->preorder(myTree->root, print_int_node);
-	printf("\n");
-
-	delete myTree;
+	Heap<int, Comparator> h = Heap<int, Comparator>(10);
 
 	return 0;
 }
