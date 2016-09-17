@@ -1,3 +1,6 @@
+#ifndef _HEAP_H_
+#define _HEAP_H_
+
 /** 
  * The Heap class implements a heap in a fashion similar to
  * that presented in the book. It uses a comparison class to
@@ -74,3 +77,5 @@ void Heap<T, Comp>::swap(int i, int j) {
     array[j] = array[i];
     array[i] = tmp;
 }
+
+#endif // _HEAP_H_
