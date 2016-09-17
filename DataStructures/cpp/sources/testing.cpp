@@ -14,5 +14,15 @@ int main(int argc, char* argv[])
 {
 	Heap<int, Comparator> h = Heap<int, Comparator>(10);
 
+	h.print();
+
+	h.insert(8);
+
+	h.print();
+
+	h.insert(7);
+
+	h.print();
+
 	return 0;
 }

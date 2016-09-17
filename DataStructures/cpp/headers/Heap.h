@@ -1,6 +1,11 @@
 #ifndef _HEAP_H_
 #define _HEAP_H_
 
+// I'm putting a print helper in here, which isn't the norm
+// but it makes things a bit easier to test.
+#include <iostream>
+using namespace std;
+
 /** 
  * The Heap class implements a heap in a fashion similar to
  * that presented in the book. It uses a comparison class to
@@ -34,6 +39,8 @@
         bool isLeaf(int);
         int parent(int);
         int insert(T);
+
+        void print();
  };
 
 template<typename T, typename Comp>
@@ -76,6 +83,16 @@ void Heap<T, Comp>::swap(int i, int j) {
     T tmp = array[j];
     array[j] = array[i];
     array[i] = tmp;
+}
+
+template<typename T, typename Comp>
+void Heap<T, Comp>::print()
+{
+    for (int i = 0; i < size; i++) {
+        cout << array[i] << " ";
+    }
+
+    cout << endl;
 }
 
 #endif // _HEAP_H_
