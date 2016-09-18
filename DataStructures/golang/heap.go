@@ -34,3 +34,68 @@ func (h *Heap) swap(i, j int) {
 func (h *Heap) Parent(pos int) int {
 	return (pos - 1) / 2
 }
+
+func (h *Heap) Pop() int {
+	elem := h.arr[0]
+
+	h.swap(0, len(h.arr)-1)
+	h.arr = h.arr[:len(h.arr)-1]
+
+	h.siftDown(0)
+	return elem
+}
+
+func (h *Heap) siftDown(pos int) {
+	for !h.IsLeaf(pos) {
+		j := h.LeftChild(pos)
+		rc := h.RightChild(pos)
+
+		if h.arr[rc] > h.arr[j] {
+			j = rc
+		}
+
+		if h.arr[pos] > h.arr[j] {
+			return
+		}
+
+		h.swap(pos, j)
+		pos = j
+	}
+}
+
+// IsLeaf determines whether the element
+// at the given position is a leaf of the
+// tree.
+func (h *Heap) IsLeaf(pos int) bool {
+	n := len(h.arr)
+
+	return pos >= n/2 && pos < n
+}
+
+// LeftChild returns the index where the
+// given position's left child is at, or
+// -1 if that position would be outside
+// the bounds of the array.
+func (h *Heap) LeftChild(pos int) int {
+	idx := 2*pos + 1
+
+	if idx >= len(h.arr) {
+		return -1
+	}
+
+	return idx
+}
+
+// RightChild returns the index where the
+// given position's right child is at, or
+// -1 if that position would be outside
+// the bounds of the array
+func (h *Heap) RightChild(pos int) int {
+	idx := 2*pos + 2
+
+	if idx >= len(h.arr) {
+		return -1
+	}
+
+	return idx
+}
