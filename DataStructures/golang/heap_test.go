@@ -95,3 +95,16 @@ func TestPop(t *testing.T) {
 		t.Errorf("expected len = 3; got %v\n", len(h.arr))
 	}
 }
+
+func TestRemove(t *testing.T) {
+	h := &Heap{arr: []int{10, 9, 8, 7}}
+
+	tgt := h.Remove(1)
+	if tgt != 9 {
+		t.Errorf("expected remove to return target; got %v\n", tgt)
+	}
+
+	if h.arr[0] != 10 {
+		t.Errorf("expected root to be largest element; got %v\n", h.arr[0])
+	}
+}

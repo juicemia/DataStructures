@@ -99,3 +99,21 @@ func (h *Heap) RightChild(pos int) int {
 
 	return idx
 }
+
+func (h *Heap) Remove(pos int) int {
+	h.swap(pos, len(h.arr)-1)
+
+	elem := h.arr[len(h.arr)-1]
+
+	for pos != 0 && h.arr[pos] > h.arr[h.Parent(pos)] {
+		h.swap(pos, h.Parent(pos))
+
+		pos = h.Parent(pos)
+	}
+
+	h.arr = h.arr[:len(h.arr)-1]
+
+	h.siftDown(0)
+
+	return elem
+}
