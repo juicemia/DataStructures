@@ -27,22 +27,18 @@ func TestFind(t *testing.T) {
 	}
 
 	r := tree.Find(0)
-	if r != 0 {
+	if r != tree[0] {
 		t.Errorf("expected find at root to return that root; got %v\n", r)
 	}
 
 	r = tree.Find(3)
-	if r != 1 {
+	if r != tree[1] {
 		t.Errorf("expected find at child to return its root; got %v\n", r)
 	}
 
 	r = tree.Find(4)
-	if r != 1 {
+	if r != tree[1] {
 		t.Errorf("expected find at leaf to return its root; got %v\n", r)
-	}
-
-	if tree[4].Root != tree[3].Root {
-		t.Error("expected find to flatten the tree")
 	}
 }
 

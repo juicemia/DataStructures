@@ -26,16 +26,27 @@ func (t DisjointTree) Siblings(i, j int) bool {
 // Union performs a union of the two disjoint sets
 // whose children contain i and j respectively.
 func (t *DisjointTree) Union(i, j int) {
-	jr := t.Find(j)
-	_ = t.Find(i) // flatten both trees
+	jr := t.flattenAndFind(j)
+	_ = t.flattenAndFind(i) // flatten both trees
 
 	(*t)[i].Root = jr
 }
 
 // Find returns the root of a node at a given index in
-// the array holding the trees. It also flattens the
-// tree on every pass, making unions a bit more efficient.
-func (t DisjointTree) Find(i int) int {
+// the array holding the trees.
+func (t DisjointTree) Find(i int) DisjointTreeNode {
+	for t[i].Root != -1 {
+		i = t[i].Root
+	}
+
+	return t[i]
+}
+
+// This is a special purpose utility function for the
+// union. It does the find, but returns the indexes
+// instead, as well as flattening both paths to make
+// finds in the new set more efficient.
+func (t DisjointTree) flattenAndFind(i int) int {
 	var path []*DisjointTreeNode
 
 	for t[i].Root != -1 {
