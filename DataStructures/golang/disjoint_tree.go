@@ -19,7 +19,7 @@ type DisjointTree []DisjointTreeNode
 
 // Siblings checks if the nodes at two given locations
 // in the disjoint set are in the same set.
-func (t *DisjointTree) Siblings(i, j int) bool {
+func (t DisjointTree) Siblings(i, j int) bool {
 	return t.Find(i) == t.Find(j)
 }
 
