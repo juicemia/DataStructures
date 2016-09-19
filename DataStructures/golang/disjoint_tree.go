@@ -24,10 +24,18 @@ func (t DisjointTree) Siblings(i, j int) bool {
 }
 
 // Find returns the root of a node at a given index in
-// the array holding the trees.
+// the array holding the trees. It also flattens the
+// tree on every pass, making unions a bit more efficient.
 func (t DisjointTree) Find(i int) DisjointTreeNode {
+	var path []*DisjointTreeNode
+
 	for t[i].Root != -1 {
+		path = append(path, &t[i])
 		i = t[i].Root
+	}
+
+	for _, n := range path {
+		n.Root = i
 	}
 
 	return t[i]

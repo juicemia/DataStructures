@@ -20,6 +20,10 @@ func TestFind(t *testing.T) {
 			Root:  1,
 			Value: 4,
 		},
+		DisjointTreeNode{
+			Root:  3,
+			Value: 5,
+		},
 	}
 
 	r := tree.Find(0)
@@ -27,11 +31,18 @@ func TestFind(t *testing.T) {
 		t.Errorf("expected find at root to return that root; got %v\n", r)
 	}
 
-	t.Logf("disjoint tree: %+v\n", tree)
-
 	r = tree.Find(3)
 	if r != tree[1] {
 		t.Errorf("expected find at child to return its root; got %v\n", r)
+	}
+
+	r = tree.Find(4)
+	if r != tree[1] {
+		t.Errorf("expected find at leaf to return its root; got %v\n", r)
+	}
+
+	if tree[4].Root != tree[3].Root {
+		t.Error("expected find to flatten the tree")
 	}
 }
 
