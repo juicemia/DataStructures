@@ -50,7 +50,7 @@ func (h *Heap) siftDown(pos int) {
 		j := h.LeftChild(pos)
 		rc := h.RightChild(pos)
 
-		if h.arr[rc] > h.arr[j] {
+		if rc > 0 && h.arr[rc] > h.arr[j] {
 			j = rc
 		}
 

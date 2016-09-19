@@ -94,6 +94,11 @@ func TestPop(t *testing.T) {
 	if len(h.arr) != 3 {
 		t.Errorf("expected len = 3; got %v\n", len(h.arr))
 	}
+
+	top = h.Pop()
+	if top != 9 {
+		t.Errorf("expected new top value to be 9; got %v\n", top)
+	}
 }
 
 func TestRemove(t *testing.T) {
