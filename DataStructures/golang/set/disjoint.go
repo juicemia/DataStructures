@@ -1,4 +1,4 @@
-package golang
+package set
 
 // DisjointTreeNode represents a node in the
 // disjoint tree. This tree only needs a pointer

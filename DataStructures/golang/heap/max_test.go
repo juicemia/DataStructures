@@ -1,9 +1,9 @@
-package golang
+package heap
 
 import "testing"
 
 func TestInsert(t *testing.T) {
-	h := &Heap{}
+	h := &Max{}
 
 	h.Insert(8)
 	if h.arr[0] != 8 {
@@ -27,7 +27,7 @@ func TestInsert(t *testing.T) {
 }
 
 func TestIsLeaf(t *testing.T) {
-	h := &Heap{arr: []int{5}}
+	h := &Max{arr: []int{5}}
 
 	if !h.IsLeaf(0) {
 		t.Error("expected h.arr[0] to be a leaf")
@@ -44,7 +44,7 @@ func TestIsLeaf(t *testing.T) {
 }
 
 func TestLeftChild(t *testing.T) {
-	h := &Heap{arr: []int{5}}
+	h := &Max{arr: []int{5}}
 
 	if h.LeftChild(0) != -1 {
 		t.Error("expected the left child of the root to be -1")
@@ -57,7 +57,7 @@ func TestLeftChild(t *testing.T) {
 }
 
 func TestRightChild(t *testing.T) {
-	h := &Heap{arr: []int{5}}
+	h := &Max{arr: []int{5}}
 
 	if h.RightChild(0) != -1 {
 		t.Error("expected the right child of the root to be -1")
@@ -75,7 +75,7 @@ func TestRightChild(t *testing.T) {
 }
 
 func TestSiftDown(t *testing.T) {
-	h := &Heap{arr: []int{5, 6, 7}}
+	h := &Max{arr: []int{5, 6, 7}}
 
 	h.siftDown(0)
 	if h.arr[0] == 5 {
@@ -84,7 +84,7 @@ func TestSiftDown(t *testing.T) {
 }
 
 func TestPop(t *testing.T) {
-	h := &Heap{arr: []int{10, 9, 8, 7}}
+	h := &Max{arr: []int{10, 9, 8, 7}}
 
 	top := h.Pop()
 	if top != 10 {
@@ -102,7 +102,7 @@ func TestPop(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
-	h := &Heap{arr: []int{10, 9, 8, 7}}
+	h := &Max{arr: []int{10, 9, 8, 7}}
 
 	tgt := h.Remove(1)
 	if tgt != 9 {
