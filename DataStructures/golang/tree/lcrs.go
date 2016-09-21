@@ -26,8 +26,23 @@ func (n Node) IsLeaf() bool {
 // opposed to linked list implementations.
 type General []Node
 
-// AddChild adds a child to the given node.
-func (t General) AddChild(n *Node, elem int) Node {
+// AddChild adds a child to the node at the given index.
+func (t General) AddChild(i, elem int) General {
+	n := t[i]
+
+	if n.IsLeaf() {
+		t = append(t, Node{
+			LeftChild:    -1,
+			RightSibling: -1,
+			Parent:       i, // fix this
+			Value:        elem,
+		})
+
+		n.LeftChild = len(t) - 1
+
+		return t
+	}
+
 	lastChild := t[n.LeftChild]
 
 	for lastChild.RightSibling != -1 {
@@ -41,5 +56,5 @@ func (t General) AddChild(n *Node, elem int) Node {
 		Value:        elem,
 	})
 
-	return t[len(t)-1]
+	return t
 }
